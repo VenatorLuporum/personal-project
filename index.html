@@ -38,20 +38,17 @@
             <h2>💬 Microblog</h2>
             <p class="card-hint">Short thoughts, updated whenever I feel like it.</p>
 
-            <article class="post">
-                <p>Finally got my dashboard looking the way I want. Small wins matter.</p>
-                <time datetime="2026-10-27">Oct 27, 2026</time>
-            </article>
+            <!-- Form to add a new post -->
+            <form id="post-form" class="post-form">
+                <textarea id="post-input" rows="3" placeholder="What's on your mind?" maxlength="280" required></textarea>
+                <div class="post-form-footer">
+                    <span id="char-count" class="char-count">0 / 280</span>
+                    <button type="submit" class="btn btn-primary">Post</button>
+                </div>
+            </form>
 
-            <article class="post">
-                <p>CSS Grid is way less scary than I thought. It's just rows and columns.</p>
-                <time datetime="2026-10-25">Oct 25, 2026</time>
-            </article>
-
-            <article class="post">
-                <p>Started this project today. Feels good to build something for myself.</p>
-                <time datetime="2026-10-24">Oct 24, 2026</time>
-            </article>
+            <!-- Posts will be rendered here by JavaScript -->
+            <div id="posts-container"></div>
         </section>
 
         <!-- READING LOG SECTION -->
@@ -99,5 +96,6 @@
         <p>Built by hand with HTML & CSS. No frameworks, no fuss.</p>
     </footer>
 
+    <script src="script.js"></script>
 </body>
 </html>
