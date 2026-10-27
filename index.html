@@ -33,24 +33,31 @@
             </ul>
         </section>
 
-        <!-- MICROBLOG SECTION -->
-        <section class="card" id="microblog">
-            <h2>💬 Microblog</h2>
-            <p class="card-hint">Short thoughts, updated whenever I feel like it.</p>
+       <!-- MICROBLOG SECTION -->
+<section class="card" id="microblog">
+    <h2>💬 Microblog</h2>
 
-            <!-- Form to add a new post -->
-            <form id="post-form" class="post-form">
-                <textarea id="post-input" rows="3" placeholder="What's on your mind?" maxlength="280" required></textarea>
-                <div class="post-form-footer">
-                    <span id="char-count" class="char-count">0 / 280</span>
-                    <button type="submit" class="btn btn-primary">Post</button>
-                </div>
-            </form>
+    <!-- Twitter-style composer -->
+    <form id="post-form" class="composer">
+        <div class="composer-avatar" aria-hidden="true">You</div>
+        <div class="composer-body">
+            <textarea
+                id="post-input"
+                rows="1"
+                placeholder="What's happening?"
+                maxlength="280"
+                required
+            ></textarea>
+            <div class="composer-footer">
+                <span id="char-count" class="char-count">0 / 280</span>
+                <button type="submit" class="btn btn-primary" id="post-btn" disabled>Post</button>
+            </div>
+        </div>
+    </form>
 
-            <!-- Posts will be rendered here by JavaScript -->
-            <div id="posts-container"></div>
-        </section>
-
+    <!-- Posts rendered here -->
+    <div id="posts-container"></div>
+</section>
         <!-- READING LOG SECTION -->
         <section class="card" id="reading-log">
             <h2>📚 Reading Log</h2>
