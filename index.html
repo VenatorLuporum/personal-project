@@ -8,100 +8,154 @@
 </head>
 <body>
 
-    <header class="site-header">
-        <h1>My Corner of the Web</h1>
-        <p class="tagline">A dashboard of what I'm doing, thinking, and reading.</p>
-        <nav class="site-nav">
-            <a href="#now">Now</a>
-            <a href="#microblog">Microblog</a>
-            <a href="#reading-log">Reading Log</a>
-        </nav>
-    </header>
+    <div class="layout">
 
-    <main class="dashboard-grid">
+        <!-- ===== LEFT SIDEBAR ===== -->
+        <aside class="sidebar">
+            <div class="profile-card">
+                <div class="profile-banner"></div>
 
-        <!-- NOW SECTION -->
-        <section class="card" id="now">
-            <h2>📌 Now</h2>
-            <p class="updated">Last updated: <time datetime="2026-10-27">October 27, 2026</time></p>
-            <ul class="now-list">
-                <li><strong>Building:</strong> A personal dashboard with HTML and CSS.</li>
-                <li><strong>Learning:</strong> JavaScript basics, one small step at a time.</li>
-                <li><strong>Reading:</strong> <em>The Pragmatic Programmer</em>.</li>
-                <li><strong>Watching:</strong> Slow TV and nature documentaries.</li>
-                <li><strong>Location:</strong> Manila, Philippines 🇵🇭</li>
-            </ul>
-        </section>
-
-       <!-- MICROBLOG SECTION -->
-<section class="card" id="microblog">
-    <h2>💬 Microblog</h2>
-
-    <!-- Twitter-style composer -->
-    <form id="post-form" class="composer">
-        <div class="composer-avatar" aria-hidden="true">You</div>
-        <div class="composer-body">
-            <textarea
-                id="post-input"
-                rows="1"
-                placeholder="What's happening?"
-                maxlength="280"
-                required
-            ></textarea>
-            <div class="composer-footer">
-                <span id="char-count" class="char-count">0 / 280</span>
-                <button type="submit" class="btn btn-primary" id="post-btn" disabled>Post</button>
-            </div>
-        </div>
-    </form>
-
-    <!-- Posts rendered here -->
-    <div id="posts-container"></div>
-</section>
-        <!-- READING LOG SECTION -->
-        <section class="card" id="reading-log">
-            <h2>📚 Reading Log</h2>
-
-            <h3>Currently Reading</h3>
-            <div class="book current">
-                <div class="book-info">
-                    <p class="book-title">The Pragmatic Programmer</p>
-                    <p class="book-author">by Andrew Hunt & David Thomas</p>
+                <div class="profile-avatar-wrap">
+                    <!-- Replace src with your own photo -->
+                    <img
+                        class="profile-avatar"
+                        src="https://api.dicebear.com/9.x/notionists/svg?seed=Felix"
+                        alt="Profile picture"
+                    >
                 </div>
-                <span class="status reading">Reading</span>
+
+                <div class="profile-info">
+                    <h1 class="profile-name">Your Name</h1>
+                    <p class="profile-handle">@yourhandle</p>
+                    <p class="profile-bio">
+                        Beginner web developer building things by hand.
+                        Currently learning HTML, CSS & a bit of JavaScript.
+                    </p>
+
+                    <ul class="profile-meta">
+                        <li>📍 Manila, Philippines</li>
+                        <li>🔗 <a href="#">your-link.com</a></li>
+                        <li>📅 Joined October 2026</li>
+                    </ul>
+
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <span class="stat-number">3</span>
+                            <span class="stat-label">Posts</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">3</span>
+                            <span class="stat-label">Books</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">1</span>
+                            <span class="stat-label">Project</span>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </aside>
 
-            <h3>Finished</h3>
-            <ul class="book-list">
-                <li class="book">
-                    <div class="book-info">
-                        <p class="book-title">Atomic Habits</p>
-                        <p class="book-author">by James Clear</p>
-                    </div>
-                    <span class="status done">✓</span>
-                </li>
-                <li class="book">
-                    <div class="book-info">
-                        <p class="book-title">The Design of Everyday Things</p>
-                        <p class="book-author">by Don Norman</p>
-                    </div>
-                    <span class="status done">✓</span>
-                </li>
-                <li class="book">
-                    <div class="book-info">
-                        <p class="book-title">Sapiens</p>
-                        <p class="book-author">by Yuval Noah Harari</p>
-                    </div>
-                    <span class="status done">✓</span>
-                </li>
-            </ul>
-        </section>
+        <!-- ===== MAIN CONTENT ===== -->
+        <div class="content">
 
-    </main>
+            <header class="site-header">
+                <h1>My Corner of the Web</h1>
+                <p class="tagline">A dashboard of what I'm doing, thinking, and reading.</p>
+                <nav class="site-nav">
+                    <a href="#now">Now</a>
+                    <a href="#microblog">Microblog</a>
+                    <a href="#reading-log">Reading Log</a>
+                </nav>
+            </header>
 
-    <footer class="site-footer">
-        <p>Built by hand with HTML & CSS. No frameworks, no fuss.</p>
-    </footer>
+            <main class="dashboard-grid">
+
+                <!-- NOW SECTION -->
+                <section class="card" id="now">
+                    <h2>📌 Now</h2>
+                    <p class="updated">Last updated: <time datetime="2026-10-27">October 27, 2026</time></p>
+                    <ul class="now-list">
+                        <li><strong>Building:</strong> A personal dashboard with HTML and CSS.</li>
+                        <li><strong>Learning:</strong> JavaScript basics, one small step at a time.</li>
+                        <li><strong>Reading:</strong> <em>The Pragmatic Programmer</em>.</li>
+                        <li><strong>Watching:</strong> Slow TV and nature documentaries.</li>
+                        <li><strong>Location:</strong> Manila, Philippines 🇵🇭</li>
+                    </ul>
+                </section>
+
+                <!-- MICROBLOG SECTION -->
+                <section class="card" id="microblog">
+                    <h2>💬 Microblog</h2>
+
+                    <form id="post-form" class="composer">
+                        <div class="composer-avatar" aria-hidden="true">You</div>
+                        <div class="composer-body">
+                            <textarea
+                                id="post-input"
+                                rows="1"
+                                placeholder="What's happening?"
+                                maxlength="280"
+                                required
+                            ></textarea>
+                            <div class="composer-footer">
+                                <span id="char-count" class="char-count">0 / 280</span>
+                                <button type="submit" class="btn btn-primary" id="post-btn" disabled>Post</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div id="posts-container"></div>
+                </section>
+
+                <!-- READING LOG SECTION -->
+                <section class="card" id="reading-log">
+                    <h2>📚 Reading Log</h2>
+
+                    <h3>Currently Reading</h3>
+                    <div class="book current">
+                        <div class="book-info">
+                            <p class="book-title">The Pragmatic Programmer</p>
+                            <p class="book-author">by Andrew Hunt & David Thomas</p>
+                        </div>
+                        <span class="status reading">Reading</span>
+                    </div>
+
+                    <h3>Finished</h3>
+                    <ul class="book-list">
+                        <li class="book">
+                            <div class="book-info">
+                                <p class="book-title">Atomic Habits</p>
+                                <p class="book-author">by James Clear</p>
+                            </div>
+                            <span class="status done">✓</span>
+                        </li>
+                        <li class="book">
+                            <div class="book-info">
+                                <p class="book-title">The Design of Everyday Things</p>
+                                <p class="book-author">by Don Norman</p>
+                            </div>
+                            <span class="status done">✓</span>
+                        </li>
+                        <li class="book">
+                            <div class="book-info">
+                                <p class="book-title">Sapiens</p>
+                                <p class="book-author">by Yuval Noah Harari</p>
+                            </div>
+                            <span class="status done">✓</span>
+                        </li>
+                    </ul>
+                </section>
+
+            </main>
+
+            <footer class="site-footer">
+                <p>Built by hand with HTML & CSS. No frameworks, no fuss.</p>
+            </footer>
+
+        </div>
+
+    </div>
 
     <script src="script.js"></script>
 </body>
