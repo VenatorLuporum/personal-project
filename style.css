@@ -26,10 +26,12 @@ body {
 
 /* ---------- Header ---------- */
 .site-header {
-    /* max-width: 1000px; */
-    margin: 0 auto 2rem;
+ /* remove: max-width: 1000px; */
+    /* remove: margin: 0 auto 2rem; */
+    margin-bottom: 2rem;   /* keep this */
     text-align: center;
 }
+
 
 .site-header h1 {
     font-size: 2rem;
@@ -61,10 +63,12 @@ body {
     background-color: var(--accent-soft);
 }
 
+
+
 /* ---------- Dashboard grid ---------- */
 .dashboard-grid {
-    max-width: 1000px;
-    margin: 0 auto;
+    /* remove: max-width: 1000px; */
+    /* remove: margin: 0 auto; */
     display: grid;
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -200,8 +204,9 @@ body {
 
 /* ---------- Footer ---------- */
 .site-footer {
-    max-width: 1000px;
-    margin: 2rem auto 0;
+    /* remove: max-width: 1000px; */
+    /* remove: margin: 2rem auto 0; */
+    margin-top: 2rem;      /* keep this */
     text-align: center;
     font-size: 0.85rem;
     color: var(--muted);
