@@ -1,1 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+    <header class="site-header">
+        <h1>My Corner of the Web</h1>
+        <p class="tagline">A dashboard of what I'm doing, thinking, and reading.</p>
+        <nav class="site-nav">
+            <a href="#now">Now</a>
+            <a href="#microblog">Microblog</a>
+            <a href="#reading-log">Reading Log</a>
+        </nav>
+    </header>
+
+    <main class="dashboard-grid">
+
+        <!-- NOW SECTION -->
+        <section class="card" id="now">
+            <h2>📌 Now</h2>
+            <p class="updated">Last updated: <time datetime="2026-10-27">October 27, 2026</time></p>
+            <ul class="now-list">
+                <li><strong>Building:</strong> A personal dashboard with HTML and CSS.</li>
+                <li><strong>Learning:</strong> JavaScript basics, one small step at a time.</li>
+                <li><strong>Reading:</strong> <em>The Pragmatic Programmer</em>.</li>
+                <li><strong>Watching:</strong> Slow TV and nature documentaries.</li>
+                <li><strong>Location:</strong> Manila, Philippines 🇵🇭</li>
+            </ul>
+        </section>
+
+        <!-- MICROBLOG SECTION -->
+        <section class="card" id="microblog">
+            <h2>💬 Microblog</h2>
+            <p class="card-hint">Short thoughts, updated whenever I feel like it.</p>
+
+            <article class="post">
+                <p>Finally got my dashboard looking the way I want. Small wins matter.</p>
+                <time datetime="2026-10-27">Oct 27, 2026</time>
+            </article>
+
+            <article class="post">
+                <p>CSS Grid is way less scary than I thought. It's just rows and columns.</p>
+                <time datetime="2026-10-25">Oct 25, 2026</time>
+            </article>
+
+            <article class="post">
+                <p>Started this project today. Feels good to build something for myself.</p>
+                <time datetime="2026-10-24">Oct 24, 2026</time>
+            </article>
+        </section>
+
+        <!-- READING LOG SECTION -->
+        <section class="card" id="reading-log">
+            <h2>📚 Reading Log</h2>
+
+            <h3>Currently Reading</h3>
+            <div class="book current">
+                <div class="book-info">
+                    <p class="book-title">The Pragmatic Programmer</p>
+                    <p class="book-author">by Andrew Hunt & David Thomas</p>
+                </div>
+                <span class="status reading">Reading</span>
+            </div>
+
+            <h3>Finished</h3>
+            <ul class="book-list">
+                <li class="book">
+                    <div class="book-info">
+                        <p class="book-title">Atomic Habits</p>
+                        <p class="book-author">by James Clear</p>
+                    </div>
+                    <span class="status done">✓</span>
+                </li>
+                <li class="book">
+                    <div class="book-info">
+                        <p class="book-title">The Design of Everyday Things</p>
+                        <p class="book-author">by Don Norman</p>
+                    </div>
+                    <span class="status done">✓</span>
+                </li>
+                <li class="book">
+                    <div class="book-info">
+                        <p class="book-title">Sapiens</p>
+                        <p class="book-author">by Yuval Noah Harari</p>
+                    </div>
+                    <span class="status done">✓</span>
+                </li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <p>Built by hand with HTML & CSS. No frameworks, no fuss.</p>
+    </footer>
+
+</body>
+</html>
