@@ -590,7 +590,8 @@ body {
 /* Decorative banner behind the avatar */
 .profile-banner {
     position: relative;
-    height: 120px;
+    width: 100%;
+    aspect-ratio: 498 / 280;   /* matches your GIF's proportions */
     background: linear-gradient(135deg, var(--accent), #8fb0d8);
     overflow: hidden;
 }
@@ -598,14 +599,14 @@ body {
 .profile-banner-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover;         /* keeps it crisp; no cropping since ratio matches */
     display: block;
 }
 
 .profile-avatar-wrap {
     display: flex;
     justify-content: center;
-    margin-top: -50px;
+    margin-top: -45px;
 }
 
 .profile-avatar {
