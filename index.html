@@ -65,17 +65,19 @@
                 </nav>
             </header>
 
-            <main class="dashboard-grid">
-                
-                <!-- NOW SECTION -->
-                <section class="card" id="now">
-                    <h2>📌 Now</h2>
-                    <p class="updated">Last updated: <time datetime="2026-10-27">October 27, 2026</time></p>
-                    <ul class="now-list">
-                        <li><strong>Building:</strong> A personal dashboard with HTML and CSS.</li>
-                        <li><strong>Learning:</strong> JavaScript basics, one small step at a time.</li>
-                    </ul>
-                </section>
+            <!-- NOW SECTION -->
+<section class="card" id="now">
+    <!-- Added an ID for the greeting -->
+    <h2 id="greeting">📌 Now</h2>
+    
+    <!-- Added an ID for the date -->
+    <p class="updated">Last updated: <span id="current-date"></span></p>
+    
+    <ul class="now-list">
+        <li><strong>Building:</strong> A personal dashboard with HTML and CSS.</li>
+        <li><strong>Learning:</strong> JavaScript basics, one small step at a time.</li>
+    </ul>
+</section>
 
                 <!-- GALLERY SECTION -->
                 <section class="card" id="gallery">

@@ -1,6 +1,36 @@
 // Wait for the HTML to fully load before running any code
 document.addEventListener("DOMContentLoaded", () => {
-    
+     // ---------- 1. Dynamic "Now" Page ----------
+    function updateNowSection() {
+        // A. Update the Date
+        const dateEl = document.getElementById("current-date");
+        if (dateEl) {
+            const today = new Date();
+            // Formats as: October 28, 2026
+            const options = { month: 'long', day: 'numeric', year: 'numeric' };
+            dateEl.textContent = today.toLocaleDateString('en-US', options);
+        }
+
+        // B. Update the Greeting based on time of day
+        const greetingEl = document.getElementById("greeting");
+        if (greetingEl) {
+            const hour = new Date().getHours();
+            let greetingText = "📌 Now"; // Default fallback
+
+            if (hour < 12) {
+                greetingText = "🌅 Good Morning";
+            } else if (hour < 18) {
+                greetingText = "☀️ Good Afternoon";
+            } else {
+                greetingText = "🌙 Good Evening";
+            }
+            
+            greetingEl.textContent = greetingText;
+        }
+    }
+
+    // Run the function
+    updateNowSection();
     // ---------- 1. Live Profile Stats ----------
     function updateStats() {
         // Count the Photos
