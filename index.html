@@ -70,7 +70,7 @@
                 <p class="tagline">A dashboard of what I'm doing, thinking, and reading.</p>
                 <nav class="site-nav">
                     <a href="#now">Now</a>
-                    <a href="#microblog">Microblog</a>
+                    <a href="#gallery">Gallery</a>
                     <a href="#gaming-log">Gaming Log</a>
                 </nav>
             </header>
@@ -90,29 +90,21 @@
                     </ul>
                 </section>
 
-                <!-- MICROBLOG SECTION -->
-                <section class="card" id="microblog">
-                    <h2>💬 Microblog</h2>
+                <!-- GALLERY / MEDIA DUMP SECTION -->
+  <section class="card" id="gallery">
+    <h2>📸 Photo Dump</h2>
+    <p class="card-hint">A few things I'm looking at right now.</p>
 
-                    <form id="post-form" class="composer">
-                        <div class="composer-avatar" aria-hidden="true">You</div>
-                        <div class="composer-body">
-                            <textarea
-                                id="post-input"
-                                rows="1"
-                                placeholder="What's happening?"
-                                maxlength="280"
-                                required
-                            ></textarea>
-                            <div class="composer-footer">
-                                <span id="char-count" class="char-count">0 / 280</span>
-                                <button type="submit" class="btn btn-primary" id="post-btn" disabled>Post</button>
-                            </div>
-                        </div>
-                    </form>
+    <div class="gallery-grid">
+        <!-- Replace the src with your own images -->
+        <img src="https://picsum.photos/400/300?random=1" alt="Desk setup" class="gallery-item">
+        <img src="https://picsum.photos/300/400?random=2" alt="Game screenshot" class="gallery-item">
+        <img src="https://picsum.photos/400/400?random=3" alt="Nature" class="gallery-item">
+        <img src="https://picsum.photos/500/300?random=4" alt="Coffee" class="gallery-item">
+    </div>
+</section>
 
-                    <div id="posts-container"></div>
-                </section>
+               
 
                <!-- GAMING LOG SECTION -->
 <section class="card" id="gaming-log">
