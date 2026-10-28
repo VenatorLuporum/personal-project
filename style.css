@@ -419,7 +419,7 @@ body {
     gap: 0.4rem;
     margin-bottom: 1.25rem;
     padding: 0.75rem;
-    background: #fafaf8;
+    background: var(--meta-bg); /* <-- Updated to use a variable */
     border-radius: 8px;
 }
 
