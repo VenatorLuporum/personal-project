@@ -89,4 +89,30 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => { lightboxImg.src = ""; }, 200); 
         }
     }
+   // ==========================================
+    // 4. DARK MODE TOGGLE
+    // ==========================================
+    const themeToggleBtn = document.getElementById("theme-toggle");
+    const body = document.body;
+
+    // Check if user previously selected dark mode
+    if (localStorage.getItem("theme") === "dark") {
+        body.classList.add("dark-mode");
+        themeToggleBtn.textContent = "☀️ Light Mode";
+    }
+
+    // Listen for clicks on the button
+    themeToggleBtn.addEventListener("click", () => {
+        // Toggle the class on the body tag
+        body.classList.toggle("dark-mode");
+        
+        // Update the button text and save preference
+        if (body.classList.contains("dark-mode")) {
+            themeToggleBtn.textContent = "☀️ Light Mode";
+            localStorage.setItem("theme", "dark");
+        } else {
+            themeToggleBtn.textContent = "🌙 Dark Mode";
+            localStorage.setItem("theme", "light");
+        }
+    });
 });

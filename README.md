@@ -27,3 +27,4 @@ Trying to build a website.
 - Replaced "Posts" counter with Photo.
 - Replaced "Reading" counter with Games.
 - "Now" page has been reconfigured from static to dynamic.
+- Added "Dark Mode"

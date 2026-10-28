@@ -15,7 +15,16 @@
     --border: #e3e0da;
     --radius: 12px;
 }
-
+/* NEW: Dark Mode Variables */
+body.dark-mode {
+    --bg: #121212;
+    --card-bg: #1e1e1e;
+    --text: #e0e0e0;
+    --muted: #a0a0a0;
+    --accent: #7a9cc6;
+    --accent-soft: #2a3545;
+    --border: #333333;
+}
 body {
     font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
     background-color: var(--bg);
@@ -530,4 +539,38 @@ body {
 @keyframes zoomIn {
     from { transform: scale(0.95); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
+}
+
+/* ============================================================
+   DARK MODE TOGGLE BUTTON
+   ============================================================ */
+
+.theme-toggle {
+    /* Position it */
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 100;
+    
+    /* Look like a pill */
+    background-color: var(--card-bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 0.75rem 1.25rem;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    
+    /* Smooth hover */
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    background-color: var(--accent);
+    color: #fff;
 }
