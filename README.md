@@ -16,7 +16,7 @@ Trying to build a website.
     - Added functionality to display image on the banner in the side profile.
 - Fixed overlapping displays of the uploaded banner and profile picture
 
-📌Version 1.2 (Release) 10/28/2026
+📌Version 1.2 (Release) 10/29/2026
 - Removed Microblog section due to not being able to sync across devices
     - "limiteStorage" must be implemented but it won't be able to sync across devices.
 - Removed Reading List section and replaced with Gaming List.
