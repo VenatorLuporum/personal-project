@@ -1,3 +1,18 @@
+// ---------- Live Profile Stats ----------
+function updateStats() {
+    // 1. Count the Photos
+    // This looks for every image with the class "gallery-item"
+    const photoCount = document.querySelectorAll(".gallery-item").length;
+    document.getElementById("stat-photos").textContent = photoCount;
+
+    // 2. Count the Games
+    // This looks for every element with the class "game" (in your Gaming Log)
+    const gameCount = document.querySelectorAll(".game").length;
+    document.getElementById("stat-games").textContent = gameCount;
+}
+
+// Run the function when the page loads
+updateStats();
 // ---------- Lightbox Functionality ----------
 const galleryItems = document.querySelectorAll(".gallery-item");
 const lightbox = document.getElementById("lightbox");
