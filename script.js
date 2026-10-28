@@ -1,21 +1,25 @@
 // Wait for the HTML to fully load before running any code
 document.addEventListener("DOMContentLoaded", () => {
     
+     // ==========================================
+    // 1. DYNAMIC "NOW" SECTION (Date & Greeting)
+    // ==========================================
     function updateNowSection() {
-        // A. Update the Date
+        // Update the Date
         const dateEl = document.getElementById("current-date");
         if (dateEl) {
             const today = new Date();
-            // Formats as: October 28, 2026
             const options = { month: 'long', day: 'numeric', year: 'numeric' };
             dateEl.textContent = today.toLocaleDateString('en-US', options);
+        } else {
+            console.log("Error: Could not find id='current-date' in HTML.");
         }
 
-        // B. Update the Greeting based on time of day
+        // Update the Greeting
         const greetingEl = document.getElementById("greeting");
         if (greetingEl) {
             const hour = new Date().getHours();
-            let greetingText = "📌 Now"; // Default fallback
+            let greetingText = "📌 Now"; 
 
             if (hour < 12) {
                 greetingText = "🌅 Good Morning";
@@ -29,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Run the function
+    // Run the date/greeting update immediately
     updateNowSection();
     // ---------- 1. Live Profile Stats ----------
     function updateStats() {
