@@ -93,6 +93,12 @@ body {
     padding: 1.5rem;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     scroll-margin-top: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+}
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
 }
 
 .card h2 {
@@ -285,135 +291,9 @@ body {
     background-color: #eef0f2;
 }
 
-/* ---------- Post cards ---------- */
-#posts-container {
-    display: flex;
-    flex-direction: column;
-}
 
-.tweet {
-    display: flex;
-    gap: 0.75rem;
-    padding: 1rem 0;
-    border-bottom: 1px solid var(--border);
-    transition: background 0.15s ease;
-}
 
-.tweet:last-child {
-    border-bottom: none;
-}
 
-.tweet:hover {
-    background-color: #fafbfc;
-}
-
-.tweet.editing {
-    background-color: #f7f9fc;
-}
-
-.tweet-body {
-    flex: 1;
-    min-width: 0;
-}
-
-.tweet-header {
-    display: flex;
-    align-items: baseline;
-    gap: 0.35rem;
-    font-size: 0.9rem;
-    flex-wrap: wrap;
-}
-
-.tweet-name {
-    font-weight: 700;
-    color: var(--text);
-}
-
-.tweet-handle,
-.tweet-dot,
-.tweet-date {
-    color: var(--muted);
-    font-size: 0.85rem;
-}
-
-.tweet-text {
-    margin: 0.15rem 0 0.5rem;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    font-size: 0.95rem;
-    line-height: 1.5;
-}
-
-/* ---------- Inline actions (Edit / Delete) ---------- */
-.tweet-actions {
-    display: flex;
-    gap: 0.25rem;
-    margin-left: -0.4rem;
-}
-
-.tweet-action {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    background: none;
-    border: none;
-    padding: 0.35rem 0.6rem;
-    border-radius: 999px;
-    font-family: inherit;
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: var(--muted);
-    cursor: pointer;
-    transition: background 0.15s ease, color 0.15s ease;
-}
-
-.tweet-action:hover {
-    background-color: var(--accent-soft);
-    color: var(--accent);
-}
-
-.tweet-action-danger:hover {
-    background-color: #fbeaea;
-    color: #c0392b;
-}
-
-.tweet-action svg {
-    flex-shrink: 0;
-}
-
-/* ---------- Edit mode ---------- */
-.edit-form textarea {
-    width: 100%;
-    padding: 0.6rem;
-    border: 1px solid var(--accent);
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 0.95rem;
-    line-height: 1.5;
-    resize: vertical;
-    margin-bottom: 0.5rem;
-    background: #fff;
-    color: var(--text);
-}
-
-.edit-form textarea:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--accent-soft);
-}
-
-.edit-actions {
-    display: flex;
-    gap: 0.5rem;
-    justify-content: flex-end;
-}
-
-/* ---------- Empty state ---------- */
-.empty-state {
-    text-align: center;
-    padding: 2rem 0.5rem;
-    color: var(--muted);
-    font-size: 0.9rem;
-}
 /* ============================================================
    LAYOUT — sidebar + content
    ============================================================ */
