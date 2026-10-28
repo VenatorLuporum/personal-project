@@ -1,54 +1,58 @@
-// ---------- Live Profile Stats ----------
-function updateStats() {
-    // 1. Count the Photos
-    // This looks for every image with the class "gallery-item"
-    const photoCount = document.querySelectorAll(".gallery-item").length;
-    document.getElementById("stat-photos").textContent = photoCount;
+// Wait for the HTML to fully load before running any code
+document.addEventListener("DOMContentLoaded", () => {
+    
+    // ---------- 1. Live Profile Stats ----------
+    function updateStats() {
+        // Count the Photos
+        const photoCount = document.querySelectorAll(".gallery-item").length;
+        const photoEl = document.getElementById("stat-photos");
+        if (photoEl) photoEl.textContent = photoCount;
 
-    // 2. Count the Games
-    // This looks for every element with the class "game" (in your Gaming Log)
-    const gameCount = document.querySelectorAll(".game").length;
-    document.getElementById("stat-games").textContent = gameCount;
-}
+        // Count the Games (Counts ALL games: playing + finished)
+        const gameCount = document.querySelectorAll(".game").length;
+        const gameEl = document.getElementById("stat-games");
+        if (gameEl) gameEl.textContent = gameCount;
+        
+        // Log to console so you can see if it's working in DevTools
+        console.log(`Stats updated: ${photoCount} photos, ${gameCount} games.`);
+    }
 
-// Run the function when the page loads
-updateStats();
-// ---------- Lightbox Functionality ----------
-const galleryItems = document.querySelectorAll(".gallery-item");
-const lightbox = document.getElementById("lightbox");
-const lightboxImg = document.getElementById("lightbox-img");
-const closeBtn = document.querySelector(".lightbox-close");
+    // Run the counter immediately
+    updateStats();
 
-// 1. Open lightbox when an image is clicked
-galleryItems.forEach((img) => {
-    img.addEventListener("click", () => {
-        lightboxImg.src = img.src; // Copy the image source
-        lightbox.classList.add("active"); // Show the overlay
-    });
-});
 
-// 2. Close lightbox when the 'X' is clicked
-closeBtn.addEventListener("click", closeLightbox);
+    // ---------- 2. Lightbox Functionality ----------
+    // We wrap this in an 'if' statement so it doesn't crash the page 
+    // if you ever remove the lightbox HTML.
+    const lightbox = document.getElementById("lightbox");
+    
+    if (lightbox) {
+        const galleryItems = document.querySelectorAll(".gallery-item");
+        const lightboxImg = document.getElementById("lightbox-img");
+        const closeBtn = document.querySelector(".lightbox-close");
 
-// 3. Close lightbox when clicking anywhere on the dark background
-lightbox.addEventListener("click", (e) => {
-    // Only close if the user clicked the background, not the image itself
-    if (e.target === lightbox) {
-        closeLightbox();
+        galleryItems.forEach((img) => {
+            img.addEventListener("click", () => {
+                lightboxImg.src = img.src;
+                lightbox.classList.add("active");
+            });
+        });
+
+        closeBtn.addEventListener("click", closeLightbox);
+        
+        lightbox.addEventListener("click", (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && lightbox.classList.contains("active")) {
+                closeLightbox();
+            }
+        });
+
+        function closeLightbox() {
+            lightbox.classList.remove("active");
+            setTimeout(() => { lightboxImg.src = ""; }, 200); 
+        }
     }
 });
-
-// 4. Close lightbox when pressing the 'Escape' key
-document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && lightbox.classList.contains("active")) {
-        closeLightbox();
-    }
-});
-
-function closeLightbox() {
-    lightbox.classList.remove("active");
-    // Clear the image source after closing to prevent flashing next time
-    setTimeout(() => {
-        lightboxImg.src = "";
-    }, 200); 
-}
