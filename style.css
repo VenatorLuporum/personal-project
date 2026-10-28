@@ -405,11 +405,13 @@ body {
 
 .layout {
     max-width: 1200px;
+    width: 100%;          /* ADD THIS */
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr;
     gap: 1.5rem;
     padding: 2rem 1rem;
+    box-sizing: border-box; /* ADD THIS */
 }
 
 /* Two columns on desktop: sticky sidebar + main */
@@ -569,7 +571,17 @@ body {
 
 /* Make gallery images look clickable */
 .gallery-item {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
     cursor: zoom-in;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    
+    /* ADD THESE THREE LINES */
+    min-width: 0; 
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 /* The dark background overlay */
