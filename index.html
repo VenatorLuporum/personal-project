@@ -8,67 +8,53 @@
 </head>
 <body>
 
+    <!-- 1. LAYOUT WRAPPER STARTS HERE -->
     <div class="layout">
 
-        <!-- ===== LEFT SIDEBAR ===== -->
+        <!-- 2. SIDEBAR -->
         <aside class="sidebar">
             <div class="profile-card">
                 <div class="profile-banner">
-                        <img
-                           class="profile-banner-img"
-                           src="banner.gif"
-                           alt=""
-    >
+                    <!-- Your banner image -->
+                    <img class="profile-banner-img" src="YOUR-BANNER-URL-HERE.gif" alt="Banner">
                 </div>
-
                 <div class="profile-avatar-wrap">
-                    <!-- Replace src with your own photo -->
-                    <img
-                        class="profile-avatar"
-                        src="me.gif"
-                        alt="Profile picture"
-                    >
+                    <!-- Your avatar image -->
+                    <img class="profile-avatar" src="YOUR-AVATAR-URL-HERE.gif" alt="Profile">
                 </div>
-
                 <div class="profile-info">
-                    <h1 class="profile-name">Troy Daniel Concepcion</h1>
-                    <!--<p class="profile-handle">@UnrivaledHottie</p> -->
+                    <h1 class="profile-name">Your Name</h1>
+                    <p class="profile-handle">@yourhandle</p>
                     <p class="profile-bio">
-                        Beginner web developer building things by hand.
-                        Currently learning HTML, CSS & a bit of JavaScript.
+                        Beginner web developer building things by hand. Currently learning HTML, CSS & a bit of JavaScript.
                     </p>
-
                     <ul class="profile-meta">
                         <li>📍 Las Pinas City, Philippines</li>
-                    <!-- <li>🔗 <a href="#">your-link.com</a></li>-->
                         <li>📅 Joined October 28, 2026</li>
                     </ul>
-
+                    
+                    <!-- LIVE STATS -->
                     <div class="profile-stats">
-    <div class="stat">
-        <!-- Added id="stat-games" -->
-        <span class="stat-number" id="stat-games">0</span>
-        <span class="stat-label">Games</span>
-    </div>
-    <div class="stat">
-        <!-- Added id="stat-photos" -->
-        <span class="stat-number" id="stat-photos">0</span>
-        <span class="stat-label">Photos</span>
-    </div>
-    <div class="stat">
-        <!-- I kept this as a static "1" for now, but you can change it to "Posts" or "Projects" -->
-        <span class="stat-number">1</span>
-        <span class="stat-label">Projects</span>
-    </div>
-</div>
+                        <div class="stat">
+                            <span class="stat-number" id="stat-games">0</span>
+                            <span class="stat-label">Games</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" id="stat-photos">0</span>
+                            <span class="stat-label">Photos</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">1</span>
+                            <span class="stat-label">Projects</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </aside>
 
-        <!-- ===== MAIN CONTENT ===== -->
+        <!-- 3. MAIN CONTENT WRAPPER -->
         <div class="content">
-
+            
             <header class="site-header">
                 <h1>My Corner of the Web</h1>
                 <p class="tagline">A dashboard of what I'm doing, thinking, and reading.</p>
@@ -80,7 +66,7 @@
             </header>
 
             <main class="dashboard-grid">
-
+                
                 <!-- NOW SECTION -->
                 <section class="card" id="now">
                     <h2>📌 Now</h2>
@@ -88,101 +74,53 @@
                     <ul class="now-list">
                         <li><strong>Building:</strong> A personal dashboard with HTML and CSS.</li>
                         <li><strong>Learning:</strong> JavaScript basics, one small step at a time.</li>
-                        <li><strong>Reading:</strong> <em>The Pragmatic Programmer</em>.</li>
-                        <li><strong>Watching:</strong> Slow TV and nature documentaries.</li>
-                        <li><strong>Location:</strong> Manila, Philippines 🇵🇭</li>
                     </ul>
                 </section>
 
-                <!-- GALLERY / MEDIA DUMP SECTION -->
-<section class="card" id="gallery">
-    <h2>📸 Photo Dump</h2>
-    <p class="card-hint">A few things I'm looking at right now.</p>
+                <!-- GALLERY SECTION -->
+                <section class="card" id="gallery">
+                    <h2>📸 Photo Dump</h2>
+                    <div class="gallery-grid">
+                        <img src="https://picsum.photos/400/300?random=1" alt="Photo" class="gallery-item">
+                        <img src="https://picsum.photos/300/400?random=2" alt="Photo" class="gallery-item">
+                        <img src="https://picsum.photos/400/400?random=3" alt="Photo" class="gallery-item">
+                        <img src="https://picsum.photos/500/300?random=4" alt="Photo" class="gallery-item">
+                        <img src="https://picsum.photos/400/350?random=5" alt="Photo" class="gallery-item">
+                        <img src="https://picsum.photos/300/300?random=6" alt="Photo" class="gallery-item">
+                        <img src="https://picsum.photos/450/400?random=7" alt="Photo" class="gallery-item">
+                        <img src="https://picsum.photos/400/300?random=8" alt="Photo" class="gallery-item">
+                    </div>
+                </section>
 
-    <div class="gallery-grid">
-        <!-- Replace src with your own images -->
-        <img src="https://picsum.photos/400/300?random=1" alt="Photo 1" class="gallery-item">
-        <img src="https://picsum.photos/300/400?random=2" alt="Photo 2" class="gallery-item">
-        <img src="https://picsum.photos/400/400?random=3" alt="Photo 3" class="gallery-item">
-        <img src="https://picsum.photos/500/300?random=4" alt="Photo 4" class="gallery-item">
-        <img src="https://picsum.photos/400/350?random=5" alt="Photo 5" class="gallery-item">
-        <img src="https://picsum.photos/300/300?random=6" alt="Photo 6" class="gallery-item">
-        <img src="https://picsum.photos/450/400?random=7" alt="Photo 7" class="gallery-item">
-        <img src="https://picsum.photos/400/300?random=8" alt="Photo 8" class="gallery-item">
-    </div>
-</section>
+                <!-- GAMING LOG SECTION -->
+                <section class="card" id="gaming-log">
+                    <h2>🎮 Gaming Log</h2>
+                    <h3>Currently Playing</h3>
+                    
+                    <div class="game current">
+                        <div class="game-header">
+                            <div class="game-info">
+                                <p class="game-title">Elden Ring</p>
+                                <p class="game-platform">PC · 42 hrs</p>
+                            </div>
+                            <span class="status playing">Playing</span>
+                        </div>
+                        <p class="game-goal"><strong>Goal:</strong> Beat Malenia without summoning.</p>
+                    </div>
 
-               
+                    <!-- Add more games here -->
+                </section>
 
-               <!-- GAMING LOG SECTION -->
-<section class="card" id="gaming-log">
-    <h2>🎮 Gaming Log</h2>
-
-    <h3>Currently Playing</h3>
-
-    <div class="game current">
-        <div class="game-header">
-            <div class="game-info">
-                <p class="game-title">Adventure Quest Worlds </p>
-                <p class="game-platform">PC</p>
-            </div>
-            <span class="status playing">Playing</span>
-        </div>
-        <p class="game-goal">
-            <strong>Goal:</strong> Get Exalted Apotheosis
-        </p>
-    </div>
-
-    <div class="game current">
-        <div class="game-header">
-            <div class="game-info">
-                <p class="game-title">Final Fantasy 14</p>
-                <p class="game-platform">PC · ??? hrs</p>
-            </div>
-            <span class="status playing">Playing</span>
-        </div>
-        <p class="game-goal">
-            <strong>Goal:</strong> Finish post-ARR.
-        </p>
-    </div>
-
-    <div class="game current">
-        <div class="game-header">
-            <div class="game-info">
-                <p class="game-title">osu!</p>
-                <p class="game-platform">PC</p>
-            </div>
-            <span class="status playing">Playing</span>
-        </div>
-        <p class="game-goal">
-            <strong>Goal:</strong> Work on improving my aim with drawing tablet.
-        </p>
-    </div>
-
-    <h3>Finished / Dropped</h3>
-    <ul class="game-list">
-        <li class="game">
-            <div class="game-header">
-                <div class="game-info">
-                    <p class="game-title">Cyberpunk 2077</p>
-                    <p class="game-platform">PC</p>
-                </div>
-                <span class="status done">✓ Finished</span>
-            </div>
-        </li>
-        
-    </ul>
-</section>
             </main>
 
             <footer class="site-footer">
-                <p>Built by hand with HTML & CSS. No frameworks, no fuss.</p>
+                <p>Built by hand with HTML & CSS.</p>
             </footer>
 
-        </div>
+        </div> <!-- END .content -->
+    </div> <!-- END .layout -->
 
-    </div>
-    <!-- Lightbox Container (Hidden by default) -->
+    <!-- 4. LIGHTBOX (Must be outside the layout wrapper) -->
     <div id="lightbox" class="lightbox">
         <span class="lightbox-close">&times;</span>
         <img id="lightbox-img" src="" alt="Expanded view">
@@ -190,5 +128,4 @@
 
     <script src="script.js"></script>
 </body>
-
 </html>
