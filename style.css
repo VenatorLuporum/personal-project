@@ -586,15 +586,15 @@ body {
 
 /* The dark background overlay */
 .lightbox {
-    display: none; /* Hidden by default */
-    position: fixed;
+    display: none; 
+    position: fixed; /* This keeps it floating over everything */
     z-index: 1000;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.85); /* Dark semi-transparent background */
-    backdrop-filter: blur(4px); /* Optional: blurs the dashboard behind it */
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(4px);
     align-items: center;
     justify-content: center;
 }
