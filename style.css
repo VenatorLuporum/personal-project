@@ -168,7 +168,7 @@ body {
 }
 
 /* ============================================================
-   GAMING LOG (Overhaul)
+   GAMING LOG (Fixed Alignment & Colors)
    ============================================================ */
 
 .game-list {
@@ -177,9 +177,10 @@ body {
     margin-top: 0.5rem;
 }
 
-/* Each game is a flex row */
+/* This forces the title/goal to the left and the pill to the right */
 .game {
     display: flex;
+    flex-direction: row;           /* Forces horizontal layout */
     justify-content: space-between;
     align-items: flex-start;
     gap: 1rem;
@@ -187,13 +188,11 @@ body {
     border-bottom: 1px solid var(--border);
 }
 
-/* Remove the bottom border from the very last game */
 .game:last-child {
     border-bottom: none;
     padding-bottom: 0;
 }
 
-/* Left side: Title and Goal */
 .game-content {
     flex: 1;
     min-width: 0;
@@ -213,8 +212,9 @@ body {
     line-height: 1.4;
 }
 
-/* Right side: Color-coded Status Labels */
+/* Base Pill Shape */
 .status {
+    display: inline-block;
     font-size: 0.75rem;
     font-weight: 700;
     padding: 0.3rem 0.75rem;
@@ -222,37 +222,24 @@ body {
     text-transform: uppercase;
     letter-spacing: 0.05em;
     white-space: nowrap;
-    flex-shrink: 0;
+    flex-shrink: 0;               /* Prevents the pill from squishing */
 }
 
-/* Green - Actively Playing */
+/* Color-Coded Backgrounds */
 .status-playing {
-    background-color: #e3f5e3;
-    color: #2d7a2d;
+    background-color: #e3f5e3 !important;
+    color: #2d7a2d !important;
 }
 
-/* Blue - Ongoing (multiplayer, live service, etc.) */
 .status-ongoing {
-    background-color: #e3effa;
-    color: #2b6cb0;
+    background-color: #e3effa !important;
+    color: #2b6cb0 !important;
 }
 
-/* Orange - On Break */
 .status-break {
-    background-color: #fdf1e3;
-    color: #b76513;
+    background-color: #fdf1e3 !important;
+    color: #b76513 !important;
 }
-
-/* ---------- Footer ---------- */
-.site-footer {
-    /* remove: max-width: 1000px; */
-    /* remove: margin: 2rem auto 0; */
-    margin-top: 2rem;      /* keep this */
-    text-align: center;
-    font-size: 0.85rem;
-    color: var(--muted);
-}
-
 
 
 /* ---------- Buttons ---------- */
