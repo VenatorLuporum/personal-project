@@ -188,79 +188,6 @@ body {
     opacity: 0.9;
 }
 
-/* ============================================================
-   GAMING LOG (Fixed Alignment & Colors)
-   ============================================================ */
-
-.game-list {
-    display: flex;
-    flex-direction: column;
-    margin-top: 0.5rem;
-}
-
-/* This forces the title/goal to the left and the pill to the right */
-.game {
-    display: flex;
-    flex-direction: row;           /* Forces horizontal layout */
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: 1.25rem 0;
-    border-bottom: 1px solid var(--border);
-}
-
-.game:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-}
-
-.game-content {
-    flex: 1;
-    min-width: 0;
-}
-
-.game-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 0.2rem;
-    line-height: 1.3;
-}
-
-.game-goal {
-    font-size: 0.9rem;
-    color: var(--muted);
-    line-height: 1.4;
-}
-
-/* Base Pill Shape */
-.status {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 0.3rem 0.75rem;
-    border-radius: 999px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    white-space: nowrap;
-    flex-shrink: 0;               /* Prevents the pill from squishing */
-}
-
-/* Color-Coded Backgrounds */
-.status-playing {
-    background-color: #e3f5e3 !important;
-    color: #2d7a2d !important;
-}
-
-.status-ongoing {
-    background-color: #e3effa !important;
-    color: #2b6cb0 !important;
-}
-
-.status-break {
-    background-color: #fdf1e3 !important;
-    color: #b76513 !important;
-}
 
 
 /* ---------- Buttons ---------- */
@@ -786,6 +713,130 @@ body.dark-mode .tweet-action-danger:hover {
     background-color: rgba(192, 57, 43, 0.2);
     color: #ff7b6b;
 }
+
+/* ============================================================
+   DYNAMIC GAMING LOG
+   ============================================================ */
+
+.gaming-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.gaming-header h2 {
+    margin-bottom: 0; /* Aligns with the button */
+}
+
+/* Add Game Form */
+.game-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: var(--accent-soft);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.game-form input,
+.game-form select {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: inherit;
+    background: var(--card-bg);
+    color: var(--text);
+}
+
+.game-form input:focus,
+.game-form select:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+/* Game List Items */
+.game {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.game:last-child {
+    border-bottom: none;
+}
+
+.game-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.game-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.2rem;
+    line-height: 1.3;
+}
+
+.game-goal {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.4;
+}
+
+/* The right side of the game row (Status + Delete) */
+.game-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Delete Button */
+.delete-game-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 0.3rem;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s, background 0.2s;
+}
+
+.delete-game-btn:hover {
+    color: #c0392b;
+    background-color: #fbeaea;
+}
+
+body.dark-mode .delete-game-btn:hover {
+    background-color: rgba(192, 57, 43, 0.2);
+}
+
+/* Status Pills (Same as before) */
+.status {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.status-playing { background-color: #e3f5e3; color: #2d7a2d; }
+.status-ongoing { background-color: #e3effa; color: #2b6cb0; }
+.status-break { background-color: #fdf1e3; color: #b76513; }
+
+body.dark-mode .status-playing { background-color: rgba(45, 122, 45, 0.2); color: #7bda7b; }
+body.dark-mode .status-ongoing { background-color: rgba(43, 108, 176, 0.2); color: #7fb2f0; }
+body.dark-mode .status-break { background-color: rgba(183, 101, 19, 0.2); color: #f0a55b; }
 
 /* ---------- Empty State ---------- */
 .empty-state {

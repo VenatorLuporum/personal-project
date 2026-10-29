@@ -121,46 +121,26 @@
 
                <!-- GAMING LOG SECTION -->
 <section class="card" id="gaming-log">
-    <h2>🎮 Gaming Log</h2>
+    <div class="gaming-header">
+        <h2>🎮 Gaming Log</h2>
+        <button id="toggle-game-form" class="btn btn-primary" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">+ Add Game</button>
+    </div>
     
-    <div class="game-list">
+    <!-- The Add Game Form (Hidden by default) -->
+    <form id="game-form" class="game-form" style="display: none;">
+        <input type="text" id="game-title" placeholder="*Required">
+        <input type="text" id="game-goal" placeholder="*Required">
+        <select id="game-status">
+            <option value="Playing">Playing</option>
+            <option value="Ongoing">Ongoing</option>
+            <option value="On Break">On Break</option>
+        </select>
+        <button type="submit" class="btn btn-primary">Save Game</button>
+    </form>
 
-        <!-- GAME 1: PLAYING -->
-        <div class="game">
-            <div class="game-content">
-                <h3 class="game-title">Adventure Quest Worlds</h3>
-                <p class="game-goal">Grind that 51% dmg weapon.</p>
-            </div>
-            <span class="status status-playing">Playing</span>
-        </div>
-
-        <!-- GAME 2: ONGOING -->
-        <div class="game">
-            <div class="game-content">
-                <h3 class="game-title">Final Fantasy XIV</h3>
-                <p class="game-goal">Complete post-ARR questline</p>
-            </div>
-            <span class="status status-ongoing">Ongoing</span>
-        </div>
-
-        <!-- GAME 3: ON BREAK -->
-        <div class="game">
-            <div class="game-content">
-                <h3 class="game-title">osu!</h3>
-                <p class="game-goal">Practice aim with drawing tablet</p>
-            </div>
-            <span class="status status-ongoing">Ongoing</span>
-        </div>
-
-        <!-- GAME 4: PLAYING -->
-        <div class="game">
-            <div class="game-content">
-                <h3 class="game-title">Crimson Desert</h3>
-                <p class="game-goal">Explore more.</p>
-            </div>
-            <span class="status status-ongoing">Ongoing</span>
-        </div>
-
+    <!-- The List of Games -->
+    <div class="game-list" id="games-container">
+        <p class="empty-state">Loading games from the cloud...</p>
     </div>
 </section>
 

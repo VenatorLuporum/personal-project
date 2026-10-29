@@ -1,8 +1,8 @@
 // ==========================================
-// 0. SUPABASE SETUP
+// SUPABASE SETUP
 // ==========================================
-const supabaseUrl = 'https://emmxjqerlyqcayiskiqf.supabase.co';
-const supabaseKey = 'sb_publishable_gAV4RbPZhMqLZ6B33xjvzA_KAPjbF7q';
+const supabaseUrl = 'YOUR_SUPABASE_URL_HERE';
+const supabaseKey = 'YOUR_SUPABASE_ANON_KEY_HERE';
 const db = supabase.createClient(supabaseUrl, supabaseKey);
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const options = { month: 'long', day: 'numeric', year: 'numeric' };
             dateEl.textContent = today.toLocaleDateString('en-US', options);
         }
-
         const greetingEl = document.getElementById("greeting");
         if (greetingEl) {
             const hour = new Date().getHours();
@@ -31,21 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateNowSection();
 
     // ==========================================
-    // 2. LIVE PROFILE STATS
-    // ==========================================
-    function updateStats() {
-        const photoCount = document.querySelectorAll(".gallery-item").length;
-        const photoEl = document.getElementById("stat-photos");
-        if (photoEl) photoEl.textContent = photoCount;
-
-        const gameCount = document.querySelectorAll(".game").length;
-        const gameEl = document.getElementById("stat-games");
-        if (gameEl) gameEl.textContent = gameCount;
-    }
-    updateStats();
-
-    // ==========================================
-    // 3. DARK MODE TOGGLE
+    // 2. DARK MODE TOGGLE
     // ==========================================
     const themeToggleBtn = document.getElementById("theme-toggle");
     const body = document.body;
@@ -67,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 4. LIGHTBOX
+    // 3. LIGHTBOX
     // ==========================================
     const lightbox = document.getElementById("lightbox");
     if (lightbox) {
@@ -93,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 5. CLOUD MICROBLOG (SUPABASE)
+    // 4. CLOUD MICROBLOG
     // ==========================================
     const postForm = document.getElementById("post-form");
     const postInput = document.getElementById("post-input");
@@ -101,25 +86,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const postBtn = document.getElementById("post-btn");
     const postsContainer = document.getElementById("posts-container");
 
-    // Fetch and display posts
     async function loadPosts() {
-        const { data: posts, error } = await db
-            .from('posts')
-            .select('*')
-            .order('created_at', { ascending: false }); // Newest first
-
-        if (error) {
-            console.error("Error loading posts:", error);
-            postsContainer.innerHTML = '<p class="empty-state">Failed to load posts.</p>';
-            return;
-        }
+        const { data: posts, error } = await db.from('posts').select('*').order('created_at', { ascending: false });
+        if (error) { console.error(error); return; }
 
         if (posts.length === 0) {
             postsContainer.innerHTML = '<p class="empty-state">No posts yet. Say something above!</p>';
             return;
         }
 
-        // Format dates and render HTML
         postsContainer.innerHTML = posts.map(post => {
             const date = new Date(post.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
             return `
@@ -135,7 +110,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         <p class="tweet-text">${post.content}</p>
                         <div class="tweet-actions">
                             <button class="tweet-action tweet-action-danger delete-btn" data-id="${post.id}">
-                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg>
                                 <span>Delete</span>
                             </button>
                         </div>
@@ -144,13 +118,11 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
         }).join("");
 
-        // Attach delete listeners
         document.querySelectorAll(".delete-btn").forEach(btn => {
             btn.addEventListener("click", () => deletePost(btn.dataset.id));
         });
     }
 
-    // Add a new post
     if (postForm) {
         postForm.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -160,53 +132,104 @@ document.addEventListener("DOMContentLoaded", () => {
             postBtn.textContent = "Posting...";
             postBtn.disabled = true;
 
-            const { error } = await db.from('posts').insert([{ content: text }]);
-
-            if (error) {
-                alert("Error saving post!");
-                console.error(error);
-            } else {
-                postInput.value = "";
-                resetComposer();
-                await loadPosts(); // Reload the feed
-            }
-
+            await db.from('posts').insert([{ content: text }]);
+            
+            postInput.value = "";
+            postInput.style.height = "auto";
+            charCount.textContent = "0 / 280";
             postBtn.textContent = "Post";
+            await loadPosts();
         });
 
-        // Composer logic
-        function resetComposer() {
-            postInput.style.height = "auto";
-            postInput.style.height = postInput.scrollHeight + "px";
-            updateCharCount();
-        }
-        function updateCharCount() {
-            const len = postInput.value.length;
-            charCount.textContent = `${len} / 280`;
-            charCount.classList.toggle("warning", len > 250);
-            postBtn.disabled = len === 0 || len > 280;
-        }
         postInput.addEventListener("input", () => {
             postInput.style.height = "auto";
             postInput.style.height = postInput.scrollHeight + "px";
-            updateCharCount();
+            const len = postInput.value.length;
+            charCount.textContent = `${len} / 280`;
+            postBtn.disabled = len === 0 || len > 280;
         });
     }
 
-    // Delete a post
     async function deletePost(id) {
-        if (!confirm("Delete this post from the cloud?")) return;
-
-        const { error } = await db.from('posts').delete().eq('id', id);
-        
-        if (error) {
-            alert("Error deleting post");
-            console.error(error);
-        } else {
-            await loadPosts(); // Reload the feed
-        }
+        if (!confirm("Delete this post?")) return;
+        await db.from('posts').delete().eq('id', id);
+        await loadPosts();
     }
 
-    // Initial Load
+    // ==========================================
+    // 5. CLOUD GAMING LOG
+    // ==========================================
+    const gamesContainer = document.getElementById("games-container");
+    const gameForm = document.getElementById("game-form");
+    const toggleGameFormBtn = document.getElementById("toggle-game-form");
+
+    // Toggle form visibility
+    if (toggleGameFormBtn) {
+        toggleGameFormBtn.addEventListener("click", () => {
+            gameForm.style.display = gameForm.style.display === "none" ? "flex" : "none";
+        });
+    }
+
+    async function loadGames() {
+        const { data: games, error } = await db.from('games').select('*').order('created_at', { ascending: true });
+        
+        if (error) { console.error(error); return; }
+        
+        if (games.length === 0) {
+            gamesContainer.innerHTML = '<p class="empty-state">No games logged yet. Click "+ Add Game"!</p>';
+            return;
+        }
+
+        gamesContainer.innerHTML = games.map(game => {
+            // Format status class (e.g. "On Break" -> "status-break")
+            const statusClass = game.status.toLowerCase().replace(" ", "-");
+            
+            return `
+                <div class="game">
+                    <div class="game-content">
+                        <h3 class="game-title">${game.title}</h3>
+                        <p class="game-goal">${game.goal || "No goal set."}</p>
+                    </div>
+                    <div class="game-actions">
+                        <span class="status status-${statusClass}">${game.status}</span>
+                        <button class="delete-game-btn" data-id="${game.id}" title="Delete Game">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join("");
+
+        // Attach delete listeners
+        document.querySelectorAll(".delete-game-btn").forEach(btn => {
+            btn.addEventListener("click", () => deleteGame(btn.dataset.id));
+        });
+    }
+
+    // Add Game
+    if (gameForm) {
+        gameForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const title = document.getElementById("game-title").value.trim();
+            const goal = document.getElementById("game-goal").value.trim();
+            const status = document.getElementById("game-status").value;
+
+            await db.from('games').insert([{ title, goal, status }]);
+            
+            gameForm.reset();
+            gameForm.style.display = "none"; // Hide form after saving
+            await loadGames();
+        });
+    }
+
+    // Delete Game
+    async function deleteGame(id) {
+        if (!confirm("Remove this game from your log?")) return;
+        await db.from('games').delete().eq('id', id);
+        await loadGames();
+    }
+
+    // Initial Loads
     loadPosts();
+    loadGames();
 });
