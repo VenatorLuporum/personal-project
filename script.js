@@ -158,16 +158,21 @@ document.addEventListener("DOMContentLoaded", () => {
         await loadPosts();
     }
 
-    // ==========================================
+        // ==========================================
     // 5. CLOUD GAMING LOG
     // ==========================================
     const gamesContainer = document.getElementById("games-container");
     const gameForm = document.getElementById("game-form");
     const toggleGameFormBtn = document.getElementById("toggle-game-form");
+    const gameTitleInput = document.getElementById("game-title");
+    const gameGoalInput = document.getElementById("game-goal");
 
     if (toggleGameFormBtn) {
         toggleGameFormBtn.addEventListener("click", () => {
             gameForm.style.display = gameForm.style.display === "none" ? "flex" : "none";
+            // Clear errors when opening the form
+            gameTitleInput.classList.remove("input-error");
+            gameGoalInput.classList.remove("input-error");
         });
     }
 
@@ -175,7 +180,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const { data: games, error } = await db.from('games').select('*').order('created_at', { ascending: true });
         if (error) { console.error(error); return; }
 
-        // --- FIX: Update Game Counter dynamically ---
         const gameStat = document.getElementById("stat-games");
         if (gameStat) gameStat.textContent = games.length;
         
@@ -185,16 +189,23 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         gamesContainer.innerHTML = games.map(game => {
+            // Format the class name (e.g., "On Break" -> "on-break")
             const statusClass = game.status.toLowerCase().replace(" ", "-");
             
             return `
                 <div class="game">
                     <div class="game-content">
                         <h3 class="game-title">${game.title}</h3>
-                        <p class="game-goal">${game.goal || "No goal set."}</p>
+                        <p class="game-goal">${game.goal}</p>
                     </div>
                     <div class="game-actions">
-                        <span class="status status-${statusClass}">${game.status}</span>
+                        <!-- CHANGED: Now a select dropdown -->
+                        <select class="status-select ${statusClass}" data-id="${game.id}">
+                            <option value="Playing" ${game.status === 'Playing' ? 'selected' : ''}>Playing</option>
+                            <option value="Ongoing" ${game.status === 'Ongoing' ? 'selected' : ''}>Ongoing</option>
+                            <option value="On Break" ${game.status === 'On Break' ? 'selected' : ''}>On Break</option>
+                        </select>
+                        
                         <button class="delete-game-btn" data-id="${game.id}" title="Delete Game">
                             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg>
                         </button>
@@ -203,18 +214,59 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
         }).join("");
 
+        // Attach Delete listeners
         document.querySelectorAll(".delete-game-btn").forEach(btn => {
             btn.addEventListener("click", () => deleteGame(btn.dataset.id));
+        });
+
+        // Attach Status Change listeners
+        document.querySelectorAll(".status-select").forEach(select => {
+            select.addEventListener("change", async (e) => {
+                const newStatus = e.target.value;
+                const gameId = e.target.dataset.id;
+                const newClass = newStatus.toLowerCase().replace(" ", "-");
+
+                // 1. Instantly update the color in the UI so it feels snappy
+                e.target.className = `status-select ${newClass}`;
+
+                // 2. Save to the database
+                const { error } = await db.from('games').update({ status: newStatus }).eq('id', gameId);
+                if (error) {
+                    alert("Error updating status!");
+                    console.error(error);
+                }
+            });
         });
     }
 
     if (gameForm) {
         gameForm.addEventListener("submit", async (e) => {
             e.preventDefault();
-            const title = document.getElementById("game-title").value.trim();
-            const goal = document.getElementById("game-goal").value.trim();
+            
+            const title = gameTitleInput.value.trim();
+            const goal = gameGoalInput.value.trim();
             const status = document.getElementById("game-status").value;
 
+            // Validation: Check if fields are empty
+            let hasError = false;
+            if (!title) {
+                gameTitleInput.classList.add("input-error");
+                hasError = true;
+            } else {
+                gameTitleInput.classList.remove("input-error");
+            }
+
+            if (!goal) {
+                gameGoalInput.classList.add("input-error");
+                hasError = true;
+            } else {
+                gameGoalInput.classList.remove("input-error");
+            }
+
+            // If empty, stop the submission
+            if (hasError) return;
+
+            // If everything is filled out, submit to database
             await db.from('games').insert([{ title, goal, status }]);
             
             gameForm.reset();
@@ -228,7 +280,6 @@ document.addEventListener("DOMContentLoaded", () => {
         await db.from('games').delete().eq('id', id);
         await loadGames();
     }
-
     // ==========================================
     // 6. CLOUD GALLERY
     // ==========================================

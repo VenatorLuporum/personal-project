@@ -943,6 +943,42 @@ body.dark-mode .status-break { background-color: rgba(183, 101, 19, 0.2); color:
         grid-template-columns: repeat(4, 1fr);
     }
 }
+/* Make the status select look like a colored pill */
+.status-select {
+    font-family: inherit;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid transparent;
+    cursor: pointer;
+    outline: none;
+    appearance: none; /* Removes default browser styling */
+    -webkit-appearance: none;
+    text-align: center;
+    transition: opacity 0.2s;
+}
+
+.status-select:hover {
+    opacity: 0.8;
+}
+
+/* Colors for the select dropdown */
+.status-select.playing { background-color: #e3f5e3; color: #2d7a2d; }
+.status-select.ongoing { background-color: #e3effa; color: #2b6cb0; }
+.status-select.on-break { background-color: #fdf1e3; color: #b76513; }
+
+body.dark-mode .status-select.playing { background-color: rgba(45, 122, 45, 0.2); color: #7bda7b; }
+body.dark-mode .status-select.ongoing { background-color: rgba(43, 108, 176, 0.2); color: #7fb2f0; }
+body.dark-mode .status-select.on-break { background-color: rgba(183, 101, 19, 0.2); color: #f0a55b; }
+
+/* Red outline for empty form fields */
+.input-error {
+    border: 1px solid #c0392b !important;
+    background-color: rgba(192, 57, 43, 0.05) !important;
+}
 /* ---------- Empty State ---------- */
 .empty-state {
     text-align: center;

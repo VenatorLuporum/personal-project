@@ -130,15 +130,16 @@
     </div>
     
     <!-- The Add Game Form (Hidden by default) -->
-    <form id="game-form" class="game-form" style="display: none;">
-        <input type="text" id="game-title" placeholder="Game Title *Required">
-        <input type="text" id="game-goal" placeholder="Current objective *Required">
+      <form id="game-form" class="game-form" style="display: none;">
+        <!-- Added 'required' to the text inputs -->
+        <input type="text" id="game-title" placeholder="Game Title (e.g., Elden Ring)" required>
+        <input type="text" id="game-goal" placeholder="Current Goal (e.g., Beat Malenia)" required>
         <select id="game-status">
             <option value="Playing">Playing</option>
             <option value="Ongoing">Ongoing</option>
             <option value="On Break">On Break</option>
         </select>
-        <button type="submit" class="btn btn-primary">Save Game</button>
+        <button type="submit" class="btn btn-primary">Add Game</button>
     </form>
 
     <!-- The List of Games -->
