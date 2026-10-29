@@ -34,10 +34,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
     const themeToggleBtn = document.getElementById("theme-toggle");
     const body = document.body;
+    
     if (localStorage.getItem("theme") === "dark") {
         body.classList.add("dark-mode");
         if(themeToggleBtn) themeToggleBtn.textContent = "☀️ Light Mode";
     }
+    
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener("click", () => {
             body.classList.toggle("dark-mode");
@@ -52,20 +54,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 3. LIGHTBOX
+    // 3. LIGHTBOX (Global function)
     // ==========================================
+    window.openLightbox = function(url) {
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImg = document.getElementById("lightbox-img");
+        if (lightbox && lightboxImg) {
+            lightboxImg.src = url;
+            lightbox.classList.add("active");
+        }
+    }
+
     const lightbox = document.getElementById("lightbox");
     if (lightbox) {
-        const galleryItems = document.querySelectorAll(".gallery-item");
-        const lightboxImg = document.getElementById("lightbox-img");
         const closeBtn = document.querySelector(".lightbox-close");
-
-        galleryItems.forEach((img) => {
-            img.addEventListener("click", () => {
-                lightboxImg.src = img.src;
-                lightbox.classList.add("active");
-            });
-        });
         if(closeBtn) closeBtn.addEventListener("click", closeLightbox);
         lightbox.addEventListener("click", (e) => { if (e.target === lightbox) closeLightbox(); });
         document.addEventListener("keydown", (e) => {
@@ -73,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         function closeLightbox() {
             lightbox.classList.remove("active");
-            setTimeout(() => { lightboxImg.src = ""; }, 200); 
+            setTimeout(() => { document.getElementById("lightbox-img").src = ""; }, 200); 
         }
     }
 
@@ -163,7 +165,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const gameForm = document.getElementById("game-form");
     const toggleGameFormBtn = document.getElementById("toggle-game-form");
 
-    // Toggle form visibility
     if (toggleGameFormBtn) {
         toggleGameFormBtn.addEventListener("click", () => {
             gameForm.style.display = gameForm.style.display === "none" ? "flex" : "none";
@@ -172,8 +173,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function loadGames() {
         const { data: games, error } = await db.from('games').select('*').order('created_at', { ascending: true });
-        
         if (error) { console.error(error); return; }
+
+        // --- FIX: Update Game Counter dynamically ---
+        const gameStat = document.getElementById("stat-games");
+        if (gameStat) gameStat.textContent = games.length;
         
         if (games.length === 0) {
             gamesContainer.innerHTML = '<p class="empty-state">No games logged yet. Click "+ Add Game"!</p>';
@@ -181,7 +185,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         gamesContainer.innerHTML = games.map(game => {
-            // Format status class (e.g. "On Break" -> "status-break")
             const statusClass = game.status.toLowerCase().replace(" ", "-");
             
             return `
@@ -200,13 +203,11 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
         }).join("");
 
-        // Attach delete listeners
         document.querySelectorAll(".delete-game-btn").forEach(btn => {
             btn.addEventListener("click", () => deleteGame(btn.dataset.id));
         });
     }
 
-    // Add Game
     if (gameForm) {
         gameForm.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -217,18 +218,18 @@ document.addEventListener("DOMContentLoaded", () => {
             await db.from('games').insert([{ title, goal, status }]);
             
             gameForm.reset();
-            gameForm.style.display = "none"; // Hide form after saving
+            gameForm.style.display = "none"; 
             await loadGames();
         });
     }
 
-    // Delete Game
     async function deleteGame(id) {
         if (!confirm("Remove this game from your log?")) return;
         await db.from('games').delete().eq('id', id);
         await loadGames();
     }
-        // ==========================================
+
+    // ==========================================
     // 6. CLOUD GALLERY
     // ==========================================
     const galleryContainer = document.getElementById("gallery-container");
@@ -236,7 +237,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const toggleUploadBtn = document.getElementById("toggle-upload-form");
     const uploadBtn = document.getElementById("upload-btn");
 
-    // Toggle form visibility
     if (toggleUploadBtn) {
         toggleUploadBtn.addEventListener("click", () => {
             uploadForm.style.display = uploadForm.style.display === "none" ? "flex" : "none";
@@ -245,10 +245,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function loadPhotos() {
         const { data: photos, error } = await db.from('photos').select('*').order('created_at', { ascending: false });
-        
         if (error) { console.error(error); return; }
         
-        // Update the Live Stats Sidebar!
+        // --- FIX: Update Photo Counter dynamically ---
         const photoStat = document.getElementById("stat-photos");
         if (photoStat) photoStat.textContent = photos.length;
 
@@ -266,16 +265,14 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
         `).join("");
 
-        // Attach delete listeners
         document.querySelectorAll(".delete-photo-btn").forEach(btn => {
             btn.addEventListener("click", (e) => {
-                e.stopPropagation(); // Stops the lightbox from opening when clicking delete
+                e.stopPropagation();
                 deletePhoto(btn.dataset.id, btn.dataset.url);
             });
         });
     }
 
-    // Upload Photo
     if (uploadForm) {
         uploadForm.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -285,7 +282,6 @@ document.addEventListener("DOMContentLoaded", () => {
             uploadBtn.textContent = "Uploading...";
             uploadBtn.disabled = true;
 
-            // 1. Upload the file to Supabase Storage
             const fileName = `${Date.now()}-${file.name.replace(/\s/g, '')}`;
             const { data: uploadData, error: uploadError } = await db.storage
                 .from('gallery')
@@ -299,12 +295,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // 2. Get the public URL of the uploaded image
             const { data: urlData } = db.storage
                 .from('gallery')
                 .getPublicUrl(fileName);
 
-            // 3. Save the URL to the database table
             await db.from('photos').insert([{ image_url: urlData.publicUrl }]);
 
             uploadForm.reset();
@@ -316,31 +310,21 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Delete Photo
     async function deletePhoto(id, url) {
         if (!confirm("Delete this photo forever?")) return;
 
-        // 1. Delete from Database
         await db.from('photos').delete().eq('id', id);
 
-        // 2. Delete the file from Storage
-        const fileName = url.split('/').pop(); // Gets the file name from the URL
+        const fileName = url.split('/').pop(); 
         await db.storage.from('gallery').remove([fileName]);
 
         await loadPhotos();
     }
 
-    // A global function so the inline onclick works for the lightbox
-    window.openLightbox = function(url) {
-        const lightbox = document.getElementById("lightbox");
-        const lightboxImg = document.getElementById("lightbox-img");
-        if (lightbox && lightboxImg) {
-            lightboxImg.src = url;
-            lightbox.classList.add("active");
-        }
-    }
-
-    // Initial Loads
+    // ==========================================
+    // INITIAL LOADS
+    // ==========================================
     loadPosts();
     loadGames();
+    loadPhotos();
 });
