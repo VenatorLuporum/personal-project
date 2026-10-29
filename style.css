@@ -580,3 +580,217 @@ body {
     background-color: var(--accent);
     color: #fff;
 }
+
+/* ============================================================
+   MICROBLOG (Composer & Tweet Cards)
+   ============================================================ */
+
+/* ---------- Composer (Input Area) ---------- */
+.composer {
+    display: flex;
+    gap: 0.75rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.5rem;
+}
+
+.composer-avatar,
+.tweet-avatar {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #7a9cc6);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.03em;
+}
+
+.composer-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.composer textarea {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: var(--text);
+    resize: none;
+    overflow: hidden;
+    padding: 0.5rem 0;
+    min-height: 44px;
+}
+
+.composer textarea:focus {
+    outline: none;
+}
+
+.composer textarea::placeholder {
+    color: var(--muted);
+}
+
+.composer-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border);
+    margin-top: 0.25rem;
+}
+
+.char-count {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.char-count.warning {
+    color: #c0392b;
+    font-weight: 600;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 0.5rem 1.1rem;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.2s ease, opacity 0.2s ease, transform 0.1s ease;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn-primary {
+    background-color: var(--accent);
+    color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #3a5a8a;
+}
+
+.btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ---------- Tweet Feed ---------- */
+#posts-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.tweet {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s ease;
+}
+
+.tweet:last-child {
+    border-bottom: none;
+}
+
+.tweet:hover {
+    background-color: var(--accent-soft); /* Subtly highlights on hover */
+    border-radius: 8px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+}
+
+.tweet-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.tweet-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+}
+
+.tweet-name {
+    font-weight: 700;
+    color: var(--text);
+}
+
+.tweet-handle,
+.tweet-dot,
+.tweet-date {
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+.tweet-text {
+    margin: 0.15rem 0 0.5rem;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--text);
+}
+
+/* ---------- Inline Actions (Delete) ---------- */
+.tweet-actions {
+    display: flex;
+    gap: 0.25rem;
+    margin-left: -0.4rem;
+}
+
+.tweet-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: none;
+    border: none;
+    padding: 0.35rem 0.6rem;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.tweet-action:hover {
+    background-color: var(--accent-soft);
+    color: var(--accent);
+}
+
+.tweet-action-danger:hover {
+    background-color: #fbeaea;
+    color: #c0392b;
+}
+
+body.dark-mode .tweet-action-danger:hover {
+    background-color: rgba(192, 57, 43, 0.2);
+    color: #ff7b6b;
+}
+
+/* ---------- Empty State ---------- */
+.empty-state {
+    text-align: center;
+    padding: 2rem 0.5rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+}

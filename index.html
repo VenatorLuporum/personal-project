@@ -97,6 +97,28 @@
                     </div>
                 </section>
 
+                <!-- MICROBLOG SECTION -->
+<section class="card" id="microblog">
+    <h2>💬 Microblog</h2>
+    
+    <!-- The Twitter-style Composer -->
+    <form id="post-form" class="composer">
+        <div class="composer-avatar" aria-hidden="true">You</div>
+        <div class="composer-body">
+            <textarea id="post-input" rows="1" placeholder="What's happening?" maxlength="280" required></textarea>
+            <div class="composer-footer">
+                <span id="char-count" class="char-count">0 / 280</span>
+                <button type="submit" class="btn btn-primary" id="post-btn" disabled>Post</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Where the posts will appear -->
+    <div id="posts-container">
+        <p class="empty-state">Loading posts from the cloud...</p>
+    </div>
+</section>
+
                <!-- GAMING LOG SECTION -->
 <section class="card" id="gaming-log">
     <h2>🎮 Gaming Log</h2>
