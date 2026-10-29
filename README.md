@@ -28,3 +28,10 @@ Trying to build a website.
 - Replaced "Reading" counter with Games.
 - "Now" page has been reconfigured from static to dynamic.
 - Added "Dark Mode"
+
+📌Version 1.3 (Release) 10/30/2026 (The Dynamic Update)
+- Implemented database so the entries are now dynamic instead of static (used Supabase)
+- Microblog has been re-implemented and is now dynamic.
+- Gaming Log is now dynamic
+- Gallery / Photo Dump is now dynamic. You can upload photos now without having to touch the HTML code!
+- Improved the counters to update as soon as there is a new entry.
