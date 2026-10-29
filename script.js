@@ -228,6 +228,117 @@ document.addEventListener("DOMContentLoaded", () => {
         await db.from('games').delete().eq('id', id);
         await loadGames();
     }
+        // ==========================================
+    // 6. CLOUD GALLERY
+    // ==========================================
+    const galleryContainer = document.getElementById("gallery-container");
+    const uploadForm = document.getElementById("upload-form");
+    const toggleUploadBtn = document.getElementById("toggle-upload-form");
+    const uploadBtn = document.getElementById("upload-btn");
+
+    // Toggle form visibility
+    if (toggleUploadBtn) {
+        toggleUploadBtn.addEventListener("click", () => {
+            uploadForm.style.display = uploadForm.style.display === "none" ? "flex" : "none";
+        });
+    }
+
+    async function loadPhotos() {
+        const { data: photos, error } = await db.from('photos').select('*').order('created_at', { ascending: false });
+        
+        if (error) { console.error(error); return; }
+        
+        // Update the Live Stats Sidebar!
+        const photoStat = document.getElementById("stat-photos");
+        if (photoStat) photoStat.textContent = photos.length;
+
+        if (photos.length === 0) {
+            galleryContainer.innerHTML = '<p class="empty-state" style="grid-column: 1 / -1;">No photos yet. Click "+ Upload"!</p>';
+            return;
+        }
+
+        galleryContainer.innerHTML = photos.map(photo => `
+            <div class="gallery-item-wrapper">
+                <img src="${photo.image_url}" alt="Gallery photo" class="gallery-item" onclick="openLightbox('${photo.image_url}')">
+                <button class="delete-photo-btn" data-id="${photo.id}" data-url="${photo.image_url}" title="Delete Photo">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
+            </div>
+        `).join("");
+
+        // Attach delete listeners
+        document.querySelectorAll(".delete-photo-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                e.stopPropagation(); // Stops the lightbox from opening when clicking delete
+                deletePhoto(btn.dataset.id, btn.dataset.url);
+            });
+        });
+    }
+
+    // Upload Photo
+    if (uploadForm) {
+        uploadForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const file = document.getElementById("image-file").files[0];
+            if (!file) return;
+
+            uploadBtn.textContent = "Uploading...";
+            uploadBtn.disabled = true;
+
+            // 1. Upload the file to Supabase Storage
+            const fileName = `${Date.now()}-${file.name.replace(/\s/g, '')}`;
+            const { data: uploadData, error: uploadError } = await db.storage
+                .from('gallery')
+                .upload(fileName, file);
+
+            if (uploadError) {
+                alert("Error uploading image!");
+                console.error(uploadError);
+                uploadBtn.textContent = "Upload Photo";
+                uploadBtn.disabled = false;
+                return;
+            }
+
+            // 2. Get the public URL of the uploaded image
+            const { data: urlData } = db.storage
+                .from('gallery')
+                .getPublicUrl(fileName);
+
+            // 3. Save the URL to the database table
+            await db.from('photos').insert([{ image_url: urlData.publicUrl }]);
+
+            uploadForm.reset();
+            uploadForm.style.display = "none";
+            uploadBtn.textContent = "Upload Photo";
+            uploadBtn.disabled = false;
+            
+            await loadPhotos();
+        });
+    }
+
+    // Delete Photo
+    async function deletePhoto(id, url) {
+        if (!confirm("Delete this photo forever?")) return;
+
+        // 1. Delete from Database
+        await db.from('photos').delete().eq('id', id);
+
+        // 2. Delete the file from Storage
+        const fileName = url.split('/').pop(); // Gets the file name from the URL
+        await db.storage.from('gallery').remove([fileName]);
+
+        await loadPhotos();
+    }
+
+    // A global function so the inline onclick works for the lightbox
+    window.openLightbox = function(url) {
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImg = document.getElementById("lightbox-img");
+        if (lightbox && lightboxImg) {
+            lightboxImg.src = url;
+            lightbox.classList.add("active");
+        }
+    }
 
     // Initial Loads
     loadPosts();

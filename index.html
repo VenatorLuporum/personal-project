@@ -83,20 +83,23 @@
 </section>
 
                 <!-- GALLERY SECTION -->
-                <section class="card" id="gallery">
-                    <h2>📸 Photo Dump</h2>
-                    <div class="gallery-grid">
-                        <img src="https://picsum.photos/400/300?random=1" alt="Photo" class="gallery-item">
-                        <img src="https://picsum.photos/300/400?random=2" alt="Photo" class="gallery-item">
-                        <img src="https://picsum.photos/400/400?random=3" alt="Photo" class="gallery-item">
-                        <img src="https://picsum.photos/500/300?random=4" alt="Photo" class="gallery-item">
-                        <img src="https://picsum.photos/400/350?random=5" alt="Photo" class="gallery-item">
-                        <img src="https://picsum.photos/300/300?random=6" alt="Photo" class="gallery-item">
-                        <img src="https://picsum.photos/450/400?random=7" alt="Photo" class="gallery-item">
-                        <img src="https://picsum.photos/400/300?random=8" alt="Photo" class="gallery-item">
-                    </div>
-                </section>
+<section class="card" id="gallery">
+    <div class="gallery-header">
+        <h2>📸 Photo Dump</h2>
+        <button id="toggle-upload-form" class="btn btn-primary" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">+ Upload</button>
+    </div>
 
+    <!-- Upload Form (Hidden by default) -->
+    <form id="upload-form" class="upload-form" style="display: none;">
+        <input type="file" id="image-file" accept="image/*" required>
+        <button type="submit" class="btn btn-primary" id="upload-btn">Upload Photo</button>
+    </form>
+
+    <!-- The Gallery Grid -->
+    <div class="gallery-grid" id="gallery-container">
+        <p class="empty-state" style="grid-column: 1 / -1;">Loading photos from the cloud...</p>
+    </div>
+</section>
                 <!-- MICROBLOG SECTION -->
 <section class="card" id="microblog">
     <h2>💬 Microblog</h2>
