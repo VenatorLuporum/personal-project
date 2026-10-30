@@ -1092,6 +1092,47 @@ body.dark-mode .delete-now-btn:hover {
     outline: none;
     border-color: var(--accent);
 }
+
+/* ============================================================
+   LOGIN SCREEN & GUEST MODE
+   ============================================================ */
+
+.login-screen {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: var(--bg);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-box {
+    background: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.login-box input {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: inherit;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* Hidden by default, shown via JS */
+.guest-hidden {
+    display: none !important;
+}
 /* ---------- Empty State ---------- */
 .empty-state {
     text-align: center;
