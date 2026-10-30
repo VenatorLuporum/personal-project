@@ -92,6 +92,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const { data: posts, error } = await db.from('posts').select('*').order('created_at', { ascending: false });
         if (error) { console.error(error); return; }
 
+        
+
+        const postStat = document.getElementById("stat-posts");
+        if (postStat) postStat.textContent = posts.length;
+
         if (posts.length === 0) {
             postsContainer.innerHTML = '<p class="empty-state">No posts yet. Say something above!</p>';
             return;
