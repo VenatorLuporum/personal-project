@@ -477,18 +477,27 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    async function loadProfile() {
-        // Fetch the single row (id=1)
-        const { data: profile, error } = await db.from('profile').select('*').eq('id', 1).single();
+     async function loadProfile() {
+        // We removed .single() so it doesn't throw an error if it returns 0 rows.
+        const { data: profile, error } = await db.from('profile').select('*').eq('id', 1);
         
-        if (error) { console.error("Error loading profile:", error); return; }
+        if (error) { 
+            console.error("Error loading profile:", error); 
+            return; 
+        }
 
-        if (profile) {
-            document.getElementById("display-name").textContent = profile.name;
-            document.getElementById("display-handle").textContent = profile.handle;
-            document.getElementById("display-bio").textContent = profile.bio;
-            document.getElementById("display-location").textContent = profile.location;
-            document.getElementById("display-joined").textContent = profile.joined_date;
+        // If the database returned a row, use it. If not, use fallbacks.
+        if (profile && profile.length > 0) {
+            const p = profile[0];
+            document.getElementById("display-name").textContent = p.name || "Your Name";
+            document.getElementById("display-handle").textContent = p.handle || "@yourhandle";
+            document.getElementById("display-bio").textContent = p.bio || "No bio yet.";
+            document.getElementById("display-location").textContent = p.location || "Unknown";
+            document.getElementById("display-joined").textContent = p.joined_date || "Today";
+        } else {
+            // Fallback if the row is missing entirely
+            document.getElementById("display-name").textContent = "No Profile Found";
+            document.getElementById("display-handle").textContent = "@unknown";
         }
     }
 
