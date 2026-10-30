@@ -15,24 +15,37 @@
         <aside class="sidebar">
             <div class="profile-card">
                 <div class="profile-banner">
-                    <!-- Your banner image -->
-                    <img class="profile-banner-img" src="banner.gif" alt="Banner">
+                    <img class="profile-banner-img" src="YOUR-BANNER-URL-HERE.gif" alt="Banner">
                 </div>
                 <div class="profile-avatar-wrap">
-                    <!-- Your avatar image -->
-                    <img class="profile-avatar" src="me.gif" alt="Profile">
+                    <img class="profile-avatar" src="YOUR-AVATAR-URL-HERE.gif" alt="Profile">
                 </div>
                 <div class="profile-info">
-                    <h1 class="profile-name">Troy Daniel Concepcion</h1>
-                    <!-- <p class="profile-handle">@yourhandle</p> -->
-                    <p class="profile-bio">
-                        Legally alive~
-                    </p>
+                    
+                    <!-- Added IDs to these elements -->
+                    <h1 class="profile-name" id="display-name">Loading...</h1>
+                    <p class="profile-handle" id="display-handle">@...</p>
+                    <p class="profile-bio" id="display-bio">Loading bio...</p>
+
                     <ul class="profile-meta">
-                      <!--  <li>📍 Las Pinas City, Philippines</li> -->
-                        <!-- <li>📅 Joined October 28, 2026</li>  -->
+                        <li>📍 <span id="display-location">Loading...</span></li>
+                        <li>📅 Joined <span id="display-joined">...</span></li>
+                        <li>🔗 <a href="#">your-link.com</a></li>
                     </ul>
                     
+                    <!-- Added the Edit Button -->
+                    <button id="toggle-profile-form" class="btn btn-primary" style="width: 100%; margin-bottom: 1rem; padding: 0.4rem;">Edit Profile</button>
+
+                    <!-- The Edit Form (Hidden by default) -->
+                    <form id="profile-form" class="profile-form" style="display: none;">
+                        <input type="text" id="edit-name" placeholder="Name" required>
+                        <input type="text" id="edit-handle" placeholder="Handle" required>
+                        <textarea id="edit-bio" placeholder="Bio" rows="3" required></textarea>
+                        <input type="text" id="edit-location" placeholder="Location" required>
+                        <input type="text" id="edit-joined" placeholder="Joined Date" required>
+                        <button type="submit" class="btn btn-primary">Save Profile</button>
+                    </form>
+
                     <!-- LIVE STATS -->
                     <div class="profile-stats">
                         <div class="stat">
@@ -44,8 +57,8 @@
                             <span class="stat-label">Photos</span>
                         </div>
                         <div class="stat">
-                             <span class="stat-number" id="stat-posts">0</span>
-                             <span class="stat-label">Posts</span>
+                            <span class="stat-number" id="stat-posts">0</span>
+                            <span class="stat-label">Posts</span>
                         </div>
                     </div>
                 </div>

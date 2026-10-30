@@ -1059,6 +1059,39 @@ body.dark-mode .status-select.on-break { background-color: rgba(183, 101, 19, 0.
 body.dark-mode .delete-now-btn:hover {
     background-color: rgba(192, 57, 43, 0.2);
 }
+
+/* ============================================================
+   EDIT PROFILE FORM
+   ============================================================ */
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: var(--accent-soft);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.profile-form input,
+.profile-form textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    background: var(--card-bg);
+    color: var(--text);
+}
+
+.profile-form input:focus,
+.profile-form textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+}
 /* ---------- Empty State ---------- */
 .empty-state {
     text-align: center;

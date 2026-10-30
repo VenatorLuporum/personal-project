@@ -451,10 +451,77 @@ document.addEventListener("DOMContentLoaded", () => {
 
         await loadPhotos();
     }
+    // ==========================================
+    // 7. DYNAMIC PROFILE
+    // ==========================================
+    const profileForm = document.getElementById("profile-form");
+    const toggleProfileBtn = document.getElementById("toggle-profile-form");
 
+    // Toggle form visibility
+    if (toggleProfileBtn) {
+        toggleProfileBtn.addEventListener("click", () => {
+            if (profileForm.style.display === "none") {
+                profileForm.style.display = "flex";
+                toggleProfileBtn.textContent = "Cancel Edit";
+                
+                // Pre-fill the form with current data
+                document.getElementById("edit-name").value = document.getElementById("display-name").textContent;
+                document.getElementById("edit-handle").value = document.getElementById("display-handle").textContent;
+                document.getElementById("edit-bio").value = document.getElementById("display-bio").textContent;
+                document.getElementById("edit-location").value = document.getElementById("display-location").textContent;
+                document.getElementById("edit-joined").value = document.getElementById("display-joined").textContent;
+            } else {
+                profileForm.style.display = "none";
+                toggleProfileBtn.textContent = "Edit Profile";
+            }
+        });
+    }
+
+    async function loadProfile() {
+        // Fetch the single row (id=1)
+        const { data: profile, error } = await db.from('profile').select('*').eq('id', 1).single();
+        
+        if (error) { console.error("Error loading profile:", error); return; }
+
+        if (profile) {
+            document.getElementById("display-name").textContent = profile.name;
+            document.getElementById("display-handle").textContent = profile.handle;
+            document.getElementById("display-bio").textContent = profile.bio;
+            document.getElementById("display-location").textContent = profile.location;
+            document.getElementById("display-joined").textContent = profile.joined_date;
+        }
+    }
+
+    if (profileForm) {
+        profileForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById("edit-name").value.trim();
+            const handle = document.getElementById("edit-handle").value.trim();
+            const bio = document.getElementById("edit-bio").value.trim();
+            const location = document.getElementById("edit-location").value.trim();
+            const joined = document.getElementById("edit-joined").value.trim();
+
+            // Update the database row where id=1
+            const { error } = await db.from('profile').update({ 
+                name, handle, bio, location, joined_date: joined 
+            }).eq('id', 1);
+
+            if (error) {
+                alert("Error saving profile!");
+                console.error(error);
+            } else {
+                profileForm.style.display = "none";
+                toggleProfileBtn.textContent = "Edit Profile";
+                await loadProfile(); // Refresh the display
+            }
+        });
+    }
+    
     // ==========================================
     // INITIAL LOADS
     // ==========================================
+    loadProfile();
     loadPosts();
     loadGames();
     loadPhotos();
