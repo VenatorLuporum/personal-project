@@ -5,86 +5,7 @@ const supabaseUrl = 'https://emmxjqerlyqcayiskiqf.supabase.co';
 const supabaseKey = 'sb_publishable_gAV4RbPZhMqLZ6B33xjvzA_KAPjbF7q';
 const db = supabase.createClient(supabaseUrl, supabaseKey);
 
-// DOM References for Auth
-const loginScreen = document.getElementById("login-screen");
-const mainLayout = document.getElementById("main-layout");
-const logoutBtn = document.getElementById("logout-btn");
-const loginForm = document.getElementById("login-form");
-const guestBtn = document.getElementById("guest-btn");
-
-// ==========================================
-// AUTHENTICATION LOGIC
-// ==========================================
-document.addEventListener("DOMContentLoaded", async () => {
-    
-    // 1. Check if a valid session already exists (e.g., user refreshed the page)
-    const { data: { session } } = await db.auth.getSession();
-    if (session) {
-        showDashboard(true);
-    }
-
-    // 2. Handle Login Form
-    loginForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const username = document.getElementById("login-username").value.trim().toLowerCase();
-        const password = document.getElementById("login-password").value;
-        
-        // Supabase requires an email format, so we append a dummy domain to the username
-        const email = `${username}@dashboard.local`;
-
-        const { data, error } = await db.auth.signInWithPassword({ email, password });
-
-        if (error) {
-            alert("Login failed: " + error.message);
-        } else {
-            showDashboard(true);
-        }
-    });
-
-    // 3. Handle Guest Mode
-    guestBtn.addEventListener("click", () => {
-        showDashboard(false);
-    });
-
-    // 4. Handle Logout
-    logoutBtn.addEventListener("click", async () => {
-        await db.auth.signOut();
-        window.location.reload(); // Reload to clear all state and show login screen
-    });
-
-    // 5. The function that reveals the site
-    function showDashboard(isAdmin) {
-        loginScreen.style.display = "none";
-        mainLayout.style.display = "grid";
-        
-        // Select ALL buttons that can add, edit, or delete
-        const adminElements = document.querySelectorAll('.btn-primary, .delete-btn, .delete-game-btn, .delete-photo-btn, .delete-now-btn, #toggle-game-form, #toggle-upload-form, #toggle-now-form, #toggle-profile-form');
-        
-        if (!isAdmin) {
-            // GUEST MODE: Hide all admin buttons
-            adminElements.forEach(el => el.classList.add('guest-hidden'));
-            
-            // Setup the logout button as an "Exit Guest" button
-            logoutBtn.classList.remove('guest-hidden');
-            logoutBtn.textContent = "Exit Guest Mode";
-            logoutBtn.style.background = "var(--muted)";
-        } else {
-            // ADMIN MODE: Show all buttons
-            logoutBtn.classList.remove('guest-hidden');
-            logoutBtn.textContent = "Log Out";
-            logoutBtn.style.background = "#c0392b";
-        }
-
-        // Load all the database data
-        loadProfile();
-        loadPosts();
-        loadGames();
-        loadPhotos();
-        loadNowItems(); 
-        
-        // Run UI functions
-        updateNowSection();
-    }
+document.addEventListener("DOMContentLoaded", () => {
 
     // ==========================================
     // 1. DYNAMIC "NOW" SECTION
@@ -106,6 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             greetingEl.textContent = greetingText;
         }
     }
+    updateNowSection();
 
     // ==========================================
     // 2. DARK MODE TOGGLE
@@ -169,6 +91,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     async function loadPosts() {
         const { data: posts, error } = await db.from('posts').select('*').order('created_at', { ascending: false });
         if (error) { console.error(error); return; }
+
+        
 
         const postStat = document.getElementById("stat-posts");
         if (postStat) postStat.textContent = posts.length;
@@ -239,7 +163,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         await loadPosts();
     }
 
-    // ==========================================
+        // ==========================================
     // 5. CLOUD GAMING LOG
     // ==========================================
     const gamesContainer = document.getElementById("games-container");
@@ -251,6 +175,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (toggleGameFormBtn) {
         toggleGameFormBtn.addEventListener("click", () => {
             gameForm.style.display = gameForm.style.display === "none" ? "flex" : "none";
+            // Clear errors when opening the form
             gameTitleInput.classList.remove("input-error");
             gameGoalInput.classList.remove("input-error");
         });
@@ -269,7 +194,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         gamesContainer.innerHTML = games.map(game => {
+            // Format the class name (e.g., "On Break" -> "on-break")
             const statusClass = game.status.toLowerCase().replace(" ", "-");
+            
             return `
                 <div class="game">
                     <div class="game-content">
@@ -277,11 +204,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                         <p class="game-goal">${game.goal}</p>
                     </div>
                     <div class="game-actions">
+                        <!-- CHANGED: Now a select dropdown -->
                         <select class="status-select ${statusClass}" data-id="${game.id}">
                             <option value="Playing" ${game.status === 'Playing' ? 'selected' : ''}>Playing</option>
                             <option value="Ongoing" ${game.status === 'Ongoing' ? 'selected' : ''}>Ongoing</option>
                             <option value="On Break" ${game.status === 'On Break' ? 'selected' : ''}>On Break</option>
                         </select>
+                        
                         <button class="delete-game-btn" data-id="${game.id}" title="Delete Game">
                             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg>
                         </button>
@@ -290,17 +219,27 @@ document.addEventListener("DOMContentLoaded", async () => {
             `;
         }).join("");
 
+        // Attach Delete listeners
         document.querySelectorAll(".delete-game-btn").forEach(btn => {
             btn.addEventListener("click", () => deleteGame(btn.dataset.id));
         });
 
+        // Attach Status Change listeners
         document.querySelectorAll(".status-select").forEach(select => {
             select.addEventListener("change", async (e) => {
                 const newStatus = e.target.value;
                 const gameId = e.target.dataset.id;
                 const newClass = newStatus.toLowerCase().replace(" ", "-");
+
+                // 1. Instantly update the color in the UI so it feels snappy
                 e.target.className = `status-select ${newClass}`;
-                await db.from('games').update({ status: newStatus }).eq('id', gameId);
+
+                // 2. Save to the database
+                const { error } = await db.from('games').update({ status: newStatus }).eq('id', gameId);
+                if (error) {
+                    alert("Error updating status!");
+                    console.error(error);
+                }
             });
         });
     }
@@ -308,17 +247,31 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (gameForm) {
         gameForm.addEventListener("submit", async (e) => {
             e.preventDefault();
+            
             const title = gameTitleInput.value.trim();
             const goal = gameGoalInput.value.trim();
             const status = document.getElementById("game-status").value;
 
+            // Validation: Check if fields are empty
             let hasError = false;
-            if (!title) { gameTitleInput.classList.add("input-error"); hasError = true; }
-            else { gameTitleInput.classList.remove("input-error"); }
-            if (!goal) { gameGoalInput.classList.add("input-error"); hasError = true; }
-            else { gameGoalInput.classList.remove("input-error"); }
+            if (!title) {
+                gameTitleInput.classList.add("input-error");
+                hasError = true;
+            } else {
+                gameTitleInput.classList.remove("input-error");
+            }
+
+            if (!goal) {
+                gameGoalInput.classList.add("input-error");
+                hasError = true;
+            } else {
+                gameGoalInput.classList.remove("input-error");
+            }
+
+            // If empty, stop the submission
             if (hasError) return;
 
+            // If everything is filled out, submit to database
             await db.from('games').insert([{ title, goal, status }]);
             
             gameForm.reset();
@@ -333,7 +286,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         await loadGames();
     }
 
-    // ==========================================
+        // ==========================================
     // 5.5 DYNAMIC NOW PAGE
     // ==========================================
     const nowContainer = document.getElementById("now-container");
@@ -345,6 +298,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (toggleNowFormBtn) {
         toggleNowFormBtn.addEventListener("click", () => {
             nowForm.style.display = nowForm.style.display === "none" ? "flex" : "none";
+            // Clear errors
             nowCategoryInput.classList.remove("input-error");
             nowContentInput.classList.remove("input-error");
         });
@@ -378,16 +332,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (nowForm) {
         nowForm.addEventListener("submit", async (e) => {
             e.preventDefault();
+            
             const category = nowCategoryInput.value.trim();
             const content = nowContentInput.value.trim();
 
+            // Validation
             let hasError = false;
             if (!category) { nowCategoryInput.classList.add("input-error"); hasError = true; }
             else { nowCategoryInput.classList.remove("input-error"); }
+
             if (!content) { nowContentInput.classList.add("input-error"); hasError = true; }
             else { nowContentInput.classList.remove("input-error"); }
+
             if (hasError) return;
 
+            // Save to DB
             await db.from('now_items').insert([{ category, content }]);
             
             nowForm.reset();
@@ -401,7 +360,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         await db.from('now_items').delete().eq('id', id);
         await loadNowItems();
     }
-
     // ==========================================
     // 6. CLOUD GALLERY
     // ==========================================
@@ -420,6 +378,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const { data: photos, error } = await db.from('photos').select('*').order('created_at', { ascending: false });
         if (error) { console.error(error); return; }
         
+        // --- FIX: Update Photo Counter dynamically ---
         const photoStat = document.getElementById("stat-photos");
         if (photoStat) photoStat.textContent = photos.length;
 
@@ -455,7 +414,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             uploadBtn.disabled = true;
 
             const fileName = `${Date.now()}-${file.name.replace(/\s/g, '')}`;
-            const { data: uploadData, error: uploadError } = await db.storage.from('gallery').upload(fileName, file);
+            const { data: uploadData, error: uploadError } = await db.storage
+                .from('gallery')
+                .upload(fileName, file);
 
             if (uploadError) {
                 alert("Error uploading image!");
@@ -465,7 +426,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                 return;
             }
 
-            const { data: urlData } = db.storage.from('gallery').getPublicUrl(fileName);
+            const { data: urlData } = db.storage
+                .from('gallery')
+                .getPublicUrl(fileName);
+
             await db.from('photos').insert([{ image_url: urlData.publicUrl }]);
 
             uploadForm.reset();
@@ -479,24 +443,28 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     async function deletePhoto(id, url) {
         if (!confirm("Delete this photo forever?")) return;
+
         await db.from('photos').delete().eq('id', id);
+
         const fileName = url.split('/').pop(); 
         await db.storage.from('gallery').remove([fileName]);
+
         await loadPhotos();
     }
-
     // ==========================================
     // 7. DYNAMIC PROFILE
     // ==========================================
     const profileForm = document.getElementById("profile-form");
     const toggleProfileBtn = document.getElementById("toggle-profile-form");
 
+    // Toggle form visibility
     if (toggleProfileBtn) {
         toggleProfileBtn.addEventListener("click", () => {
             if (profileForm.style.display === "none") {
                 profileForm.style.display = "flex";
                 toggleProfileBtn.textContent = "Cancel Edit";
                 
+                // Pre-fill the form with current data
                 document.getElementById("edit-name").value = document.getElementById("display-name").textContent;
                 document.getElementById("edit-handle").value = document.getElementById("display-handle").textContent;
                 document.getElementById("edit-bio").value = document.getElementById("display-bio").textContent;
@@ -510,7 +478,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     async function loadProfile() {
+        // Fetch the single row (id=1)
         const { data: profile, error } = await db.from('profile').select('*').eq('id', 1).single();
+        
         if (error) { console.error("Error loading profile:", error); return; }
 
         if (profile) {
@@ -532,6 +502,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const location = document.getElementById("edit-location").value.trim();
             const joined = document.getElementById("edit-joined").value.trim();
 
+            // Update the database row where id=1
             const { error } = await db.from('profile').update({ 
                 name, handle, bio, location, joined_date: joined 
             }).eq('id', 1);
@@ -542,9 +513,17 @@ document.addEventListener("DOMContentLoaded", async () => {
             } else {
                 profileForm.style.display = "none";
                 toggleProfileBtn.textContent = "Edit Profile";
-                await loadProfile();
+                await loadProfile(); // Refresh the display
             }
         });
     }
-
+    
+    // ==========================================
+    // INITIAL LOADS
+    // ==========================================
+    loadProfile();
+    loadPosts();
+    loadGames();
+    loadPhotos();
+    loadNowItems();
 });
