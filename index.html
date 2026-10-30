@@ -29,8 +29,8 @@
                         Legally alive~
                     </p>
                     <ul class="profile-meta">
-                        <li>📍 Las Pinas City, Philippines</li>
-                        <li>📅 Joined October 28, 2026</li>
+                      <!--  <li>📍 Las Pinas City, Philippines</li> -->
+                        <!-- <li>📅 Joined October 28, 2026</li>  -->
                     </ul>
                     
                     <!-- LIVE STATS -->
@@ -68,17 +68,25 @@
                 </nav>
             </header>
 
-            <!-- NOW SECTION -->
+           <!-- NOW SECTION -->
 <section class="card" id="now">
-    <!-- Added an ID for the greeting -->
-    <h2 id="greeting">📌 Now</h2>
+    <div class="now-header">
+        <h2 id="greeting">📌 Now</h2>
+        <button id="toggle-now-form" class="btn btn-primary" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">+ Add Item</button>
+    </div>
     
-    <!-- Added an ID for the date -->
     <p class="updated">Last updated: <span id="current-date"></span></p>
-    
-    <ul class="now-list">
-        <li><strong>Building:</strong> A personal dashboard with HTML and CSS.</li>
-        <li><strong>Learning:</strong> JavaScript basics, one small step at a time.</li>
+
+    <!-- Add Now Form (Hidden by default) -->
+    <form id="now-form" class="now-form" style="display: none;">
+        <input type="text" id="now-category" placeholder="Category (e.g., Building, Reading)" required>
+        <input type="text" id="now-content" placeholder="What are you doing? (e.g., A new dashboard)" required>
+        <button type="submit" class="btn btn-primary" id="save-now-btn">Save</button>
+    </form>
+
+    <!-- The List of Now Items -->
+    <ul class="now-list" id="now-container">
+        <p class="empty-state">Loading current status...</p>
     </ul>
 </section>
 

@@ -979,6 +979,86 @@ body.dark-mode .status-select.on-break { background-color: rgba(183, 101, 19, 0.
     border: 1px solid #c0392b !important;
     background-color: rgba(192, 57, 43, 0.05) !important;
 }
+
+/* ============================================================
+   DYNAMIC NOW PAGE
+   ============================================================ */
+
+.now-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.now-header h2 {
+    margin-bottom: 0.25rem;
+}
+
+/* Add Form */
+.now-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: var(--accent-soft);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.now-form input {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: inherit;
+    background: var(--card-bg);
+    color: var(--text);
+}
+
+.now-form input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+/* The List Items */
+.now-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed var(--border);
+}
+
+.now-list li:last-child {
+    border-bottom: none;
+}
+
+.now-item-text {
+    flex: 1;
+}
+
+/* Delete Button */
+.delete-now-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 0.3rem;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s, background 0.2s;
+}
+
+.delete-now-btn:hover {
+    color: #c0392b;
+    background-color: #fbeaea;
+}
+
+body.dark-mode .delete-now-btn:hover {
+    background-color: rgba(192, 57, 43, 0.2);
+}
 /* ---------- Empty State ---------- */
 .empty-state {
     text-align: center;

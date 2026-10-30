@@ -285,6 +285,81 @@ document.addEventListener("DOMContentLoaded", () => {
         await db.from('games').delete().eq('id', id);
         await loadGames();
     }
+
+        // ==========================================
+    // 5.5 DYNAMIC NOW PAGE
+    // ==========================================
+    const nowContainer = document.getElementById("now-container");
+    const nowForm = document.getElementById("now-form");
+    const toggleNowFormBtn = document.getElementById("toggle-now-form");
+    const nowCategoryInput = document.getElementById("now-category");
+    const nowContentInput = document.getElementById("now-content");
+
+    if (toggleNowFormBtn) {
+        toggleNowFormBtn.addEventListener("click", () => {
+            nowForm.style.display = nowForm.style.display === "none" ? "flex" : "none";
+            // Clear errors
+            nowCategoryInput.classList.remove("input-error");
+            nowContentInput.classList.remove("input-error");
+        });
+    }
+
+    async function loadNowItems() {
+        const { data: items, error } = await db.from('now_items').select('*').order('created_at', { ascending: true });
+        if (error) { console.error(error); return; }
+
+        if (items.length === 0) {
+            nowContainer.innerHTML = '<li class="empty-state">Nothing here yet. Click "+ Add Item"!</li>';
+            return;
+        }
+
+        nowContainer.innerHTML = items.map(item => `
+            <li>
+                <div class="now-item-text">
+                    <strong>${item.category}:</strong> ${item.content}
+                </div>
+                <button class="delete-now-btn" data-id="${item.id}" title="Delete Item">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg>
+                </button>
+            </li>
+        `).join("");
+
+        document.querySelectorAll(".delete-now-btn").forEach(btn => {
+            btn.addEventListener("click", () => deleteNowItem(btn.dataset.id));
+        });
+    }
+
+    if (nowForm) {
+        nowForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            
+            const category = nowCategoryInput.value.trim();
+            const content = nowContentInput.value.trim();
+
+            // Validation
+            let hasError = false;
+            if (!category) { nowCategoryInput.classList.add("input-error"); hasError = true; }
+            else { nowCategoryInput.classList.remove("input-error"); }
+
+            if (!content) { nowContentInput.classList.add("input-error"); hasError = true; }
+            else { nowContentInput.classList.remove("input-error"); }
+
+            if (hasError) return;
+
+            // Save to DB
+            await db.from('now_items').insert([{ category, content }]);
+            
+            nowForm.reset();
+            nowForm.style.display = "none";
+            await loadNowItems();
+        });
+    }
+
+    async function deleteNowItem(id) {
+        if (!confirm("Remove this item from your 'Now' page?")) return;
+        await db.from('now_items').delete().eq('id', id);
+        await loadNowItems();
+    }
     // ==========================================
     // 6. CLOUD GALLERY
     // ==========================================
@@ -383,4 +458,5 @@ document.addEventListener("DOMContentLoaded", () => {
     loadPosts();
     loadGames();
     loadPhotos();
+    loadNowItems();
 });
