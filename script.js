@@ -451,7 +451,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         await loadPhotos();
     }
-    // ==========================================
+     // ==========================================
     // 7. DYNAMIC PROFILE
     // ==========================================
     const profileForm = document.getElementById("profile-form");
