@@ -369,8 +369,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
         await loadPhotos();
     }
+
      // ==========================================
-    // 7. DYNAMIC PROFILE
+    // 7. MICROBLOG COUNTER (For Sidebar)
+    // ==========================================
+    async function updatePostCount() {
+        // We use { count: 'exact', head: true } so Supabase just returns the number, not all the post text.
+        const { count, error } = await db
+            .from('posts')
+            .select('*', { count: 'exact', head: true });
+
+        if (error) {
+            console.error("Error counting posts:", error);
+            return;
+        }
+
+        const postStat = document.getElementById("stat-posts");
+        if (postStat) postStat.textContent = count;
+    }
+     // ==========================================
+    // 8. DYNAMIC PROFILE
     // ==========================================
     const profileForm = document.getElementById("profile-form");
     const toggleProfileBtn = document.getElementById("toggle-profile-form");
@@ -444,4 +462,5 @@ document.addEventListener("DOMContentLoaded", () => {
     loadGames();
     loadPhotos();
     loadNowItems();
+     updatePostCount();
 });
