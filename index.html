@@ -8,8 +8,25 @@
 </head>
 <body>
 
-    <!-- 1. LAYOUT WRAPPER STARTS HERE -->
-          <!-- 2. SIDEBAR -->
+    <!-- LOGIN SCREEN (Hidden for now while you fix the layout) -->
+    <div id="login-screen" class="login-screen" style="display: none;">
+        <div class="login-box">
+            <h2>Welcome Back</h2>
+            <p>Log in to manage your dashboard.</p>
+            <form id="login-form">
+                <input type="text" id="login-username" placeholder="Username (without @)" required>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Log In</button>
+            </form>
+            <button id="guest-btn" class="btn-text" style="width: 100%; margin-top: 1rem; font-size: 0.9rem;">View as Guest</button>
+        </div>
+    </div>
+
+    <!-- MAIN LAYOUT WRAPPER -->
+    <!-- If you turn login back on, add style="display: none;" here -->
+    <div class="layout" id="main-layout">
+
+        <!-- 1. SIDEBAR -->
         <aside class="sidebar">
             <div class="profile-card">
                 <div class="profile-banner">
@@ -20,7 +37,6 @@
                 </div>
                 <div class="profile-info">
                     
-                    <!-- Added IDs to these elements -->
                     <h1 class="profile-name" id="display-name">Loading...</h1>
                     <p class="profile-handle" id="display-handle">@...</p>
                     <p class="profile-bio" id="display-bio">Loading bio...</p>
@@ -28,13 +44,12 @@
                     <ul class="profile-meta">
                         <li>📍 <span id="display-location">Loading...</span></li>
                         <li>📅 Joined <span id="display-joined">...</span></li>
-                        <!--<li>🔗 <a href="#">your-link.com</a></li>-->
+                        <li>🔗 <a href="#">your-link.com</a></li>
                     </ul>
                     
-                    <!-- Added the Edit Button -->
                     <button id="toggle-profile-form" class="btn btn-primary" style="width: 100%; margin-bottom: 1rem; padding: 0.4rem;">Edit Profile</button>
 
-                    <!-- The Edit Form (Hidden by default) -->
+                    <!-- Edit Profile Form -->
                     <form id="profile-form" class="profile-form" style="display: none;">
                         <input type="text" id="edit-name" placeholder="Name" required>
                         <input type="text" id="edit-handle" placeholder="Handle" required>
@@ -62,11 +77,8 @@
                 </div>
             </div>
         </aside>
-        <!-- Add the toggle button right below the sidebar -->
-        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Dark Mode">
-            🌙 Dark Mode
-        </button>
-        <!-- 3. MAIN CONTENT WRAPPER -->
+
+        <!-- 2. MAIN CONTENT -->
         <div class="content">
             
             <header class="site-header">
@@ -74,98 +86,92 @@
                 <p class="tagline">A dashboard of what I'm doing, thinking, and reading.</p>
                 <nav class="site-nav">
                     <a href="#now">Now</a>
+                    <a href="#microblog">Microblog</a>
                     <a href="#gallery">Gallery</a>
                     <a href="#gaming-log">Gaming Log</a>
                 </nav>
             </header>
 
-           <!-- NOW SECTION -->
-<section class="card" id="now">
-    <div class="now-header">
-        <h2 id="greeting">📌 Now</h2>
-        <button id="toggle-now-form" class="btn btn-primary" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">+ Add Item</button>
-    </div>
-    
-    <p class="updated">Last updated: <span id="current-date"></span></p>
+            <main class="dashboard-grid">
+                
+                <!-- NOW SECTION -->
+                <section class="card" id="now">
+                    <div class="now-header">
+                        <h2 id="greeting">📌 Now</h2>
+                        <button id="toggle-now-form" class="btn btn-primary" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">+ Add Item</button>
+                    </div>
+                    <p class="updated">Last updated: <span id="current-date"></span></p>
 
-    <!-- Add Now Form (Hidden by default) -->
-    <form id="now-form" class="now-form" style="display: none;">
-        <input type="text" id="now-category" placeholder="Category (e.g., Building, Reading)" required>
-        <input type="text" id="now-content" placeholder="What are you doing? (e.g., A new dashboard)" required>
-        <button type="submit" class="btn btn-primary" id="save-now-btn">Save</button>
-    </form>
+                    <form id="now-form" class="now-form" style="display: none;">
+                        <input type="text" id="now-category" placeholder="Category (e.g., Building, Reading)" required>
+                        <input type="text" id="now-content" placeholder="What are you doing? (e.g., A new dashboard)" required>
+                        <button type="submit" class="btn btn-primary" id="save-now-btn">Save</button>
+                    </form>
 
-    <!-- The List of Now Items -->
-    <ul class="now-list" id="now-container">
-        <p class="empty-state">Loading current status...</p>
-    </ul>
-</section>
+                    <ul class="now-list" id="now-container">
+                        <li class="empty-state">Loading current status...</li>
+                    </ul>
+                </section>
+
+                <!-- MICROBLOG SECTION -->
+                <section class="card" id="microblog">
+                    <h2>💬 Microblog</h2>
+                    
+                    <form id="post-form" class="composer">
+                        <div class="composer-avatar" aria-hidden="true">You</div>
+                        <div class="composer-body">
+                            <textarea id="post-input" rows="1" placeholder="What's happening?" maxlength="280" required></textarea>
+                            <div class="composer-footer">
+                                <span id="char-count" class="char-count">0 / 280</span>
+                                <button type="submit" class="btn btn-primary" id="post-btn" disabled>Post</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div id="posts-container">
+                        <p class="empty-state">Loading posts from the cloud...</p>
+                    </div>
+                </section>
 
                 <!-- GALLERY SECTION -->
-<section class="card" id="gallery">
-    <div class="gallery-header">
-        <h2>📸 Photo Dump</h2>
-        <button id="toggle-upload-form" class="btn btn-primary" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">+ Upload</button>
-    </div>
+                <section class="card" id="gallery">
+                    <div class="gallery-header">
+                        <h2>📸 Photo Dump</h2>
+                        <button id="toggle-upload-form" class="btn btn-primary" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">+ Upload</button>
+                    </div>
 
-    <!-- Upload Form (Hidden by default) -->
-    <form id="upload-form" class="upload-form" style="display: none;">
-        <input type="file" id="image-file" accept="image/*" required>
-        <button type="submit" class="btn btn-primary" id="upload-btn">Upload Photo</button>
-    </form>
+                    <form id="upload-form" class="upload-form" style="display: none;">
+                        <input type="file" id="image-file" accept="image/*" required>
+                        <button type="submit" class="btn btn-primary" id="upload-btn">Upload Photo</button>
+                    </form>
 
-    <!-- The Gallery Grid -->
-    <div class="gallery-grid" id="gallery-container">
-        <p class="empty-state" style="grid-column: 1 / -1;">Loading photos from the cloud...</p>
-    </div>
-</section>
-                <!-- MICROBLOG SECTION -->
-<section class="card" id="microblog">
-    <h2>💬 Microblog</h2>
-    
-    <!-- The Twitter-style Composer -->
-    <form id="post-form" class="composer">
-        <div class="composer-avatar" aria-hidden="true">You</div>
-        <div class="composer-body">
-            <textarea id="post-input" rows="1" placeholder="What's happening?" maxlength="280" required></textarea>
-            <div class="composer-footer">
-                <span id="char-count" class="char-count">0 / 280</span>
-                <button type="submit" class="btn btn-primary" id="post-btn" disabled>Post</button>
-            </div>
-        </div>
-    </form>
+                    <div class="gallery-grid" id="gallery-container">
+                        <p class="empty-state" style="grid-column: 1 / -1;">Loading photos from the cloud...</p>
+                    </div>
+                </section>
 
-    <!-- Where the posts will appear -->
-    <div id="posts-container">
-        <p class="empty-state">Loading posts from the cloud...</p>
-    </div>
-</section>
+                <!-- GAMING LOG SECTION -->
+                <section class="card" id="gaming-log">
+                    <div class="gaming-header">
+                        <h2>🎮 Gaming Log</h2>
+                        <button id="toggle-game-form" class="btn btn-primary" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">+ Add Game</button>
+                    </div>
+                    
+                    <form id="game-form" class="game-form" style="display: none;">
+                        <input type="text" id="game-title" placeholder="Game Title (e.g., Elden Ring)" required>
+                        <input type="text" id="game-goal" placeholder="Current Goal (e.g., Beat Malenia)" required>
+                        <select id="game-status">
+                            <option value="Playing">Playing</option>
+                            <option value="Ongoing">Ongoing</option>
+                            <option value="On Break">On Break</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Save Game</button>
+                    </form>
 
-               <!-- GAMING LOG SECTION -->
-<section class="card" id="gaming-log">
-    <div class="gaming-header">
-        <h2>🎮 Gaming Log</h2>
-        <button id="toggle-game-form" class="btn btn-primary" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">+ Add Game</button>
-    </div>
-    
-    <!-- The Add Game Form (Hidden by default) -->
-      <form id="game-form" class="game-form" style="display: none;">
-        <!-- Added 'required' to the text inputs -->
-        <input type="text" id="game-title" placeholder="Game Title" required>
-        <input type="text" id="game-goal" placeholder="Current Goal" required>
-        <select id="game-status">
-            <option value="Playing">Playing</option>
-            <option value="Ongoing">Ongoing</option>
-            <option value="On Break">On Break</option>
-        </select>
-        <button type="submit" class="btn btn-primary">Add Game</button>
-    </form>
-
-    <!-- The List of Games -->
-    <div class="game-list" id="games-container">
-        <p class="empty-state">Loading games from the cloud...</p>
-    </div>
-</section>
+                    <div class="game-list" id="games-container">
+                        <p class="empty-state">Loading games from the cloud...</p>
+                    </div>
+                </section>
 
             </main>
 
@@ -176,16 +182,17 @@
         </div> <!-- END .content -->
     </div> <!-- END .layout -->
 
-    <!-- 4. LIGHTBOX (Must be outside the layout wrapper) -->
+    <!-- FLOATING BUTTONS -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Dark Mode">🌙 Dark Mode</button>
+    <button id="logout-btn" class="theme-toggle" style="display: none; bottom: 5.5rem; background: #c0392b; color: white;">Log Out</button>
+
+    <!-- LIGHTBOX -->
     <div id="lightbox" class="lightbox">
         <span class="lightbox-close">&times;</span>
         <img id="lightbox-img" src="" alt="Expanded view">
     </div>
 
-     <!-- 1. LOAD SUPABASE FIRST -->
+    <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
-    <!-- 2. THEN LOAD YOUR SCRIPT -->
     <script src="script.js"></script>
 </body>
-</html>
