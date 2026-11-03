@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write a Blog | My Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Custom styles just for the editor */
+        .editor-toolbar {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: var(--accent-soft);
+            border: 1px solid var(--border);
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            flex-wrap: wrap;
+        }
+        .editor-toolbar button {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.4rem 0.6rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .editor-toolbar button:hover {
+            background: var(--accent);
+            color: white;
+        }
+        .rich-editor {
+            width: 100%;
+            min-height: 300px;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0 0 8px 8px;
+            background: var(--card-bg);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 1rem;
+            line-height: 1.6;
+            outline: none;
+            overflow-y: auto;
+        }
+        .rich-editor:focus {
+            border-color: var(--accent);
+        }
+        .rich-editor:empty:before {
+            content: attr(placeholder);
+            color: var(--muted);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="layout" style="display: block; max-width: 800px;">
+        
+        <header class="site-header" style="text-align: left; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h1>✍️ Write a Blog</h1>
+            </div>
+            <a href="index.html" class="btn btn-primary" style="text-decoration: none; padding: 0.5rem 1rem;">← Back</a>
+        </header>
+
+        <main>
+            <section class="card">
+                <form id="blog-form">
+                    
+                    <!-- Title -->
+                    <div style="margin-bottom: 1rem;">
+                        <label style="font-weight: bold; margin-bottom: 0.5rem; display: block;">Blog Title</label>
+                        <input type="text" id="blog-title" placeholder="My Awesome Title" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 1.1rem; background: var(--bg); color: var(--text);">
+                    </div>
+
+                    <!-- Cover Photo -->
+                    <div style="margin-bottom: 1rem;">
+                        <label style="font-weight: bold; margin-bottom: 0.5rem; display: block;">Cover Photo</label>
+                        <input type="file" id="blog-cover" accept="image/*" required style="width: 100%;">
+                    </div>
+
+                    <!-- Rich Text Editor -->
+                    <div style="margin-bottom: 1rem;">
+                        <label style="font-weight: bold; margin-bottom: 0.5rem; display: block;">Blog Content</label>
+                        
+                        <div class="editor-toolbar">
+                            <button type="button" onclick="document.execCommand('bold', false, null)" title="Bold">B</button>
+                            <button type="button" onclick="document.execCommand('italic', false, null)" title="Italic"><i>I</i></button>
+                            <button type="button" onclick="document.execCommand('underline', false, null)" title="Underline"><u>U</u></button>
+                            <button type="button" onclick="document.execCommand('formatBlock', false, 'h2')" title="Heading">H2</button>
+                            <button type="button" onclick="document.execCommand('insertUnorderedList', false, null)" title="Bullet List">• List</button>
+                        </div>
+                        <div id="blog-content" class="rich-editor" contenteditable="true" placeholder="Write your thoughts here..."></div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="publish-btn" style="width: 100%; padding: 0.8rem; font-size: 1rem;">Publish Blog</button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="blog.js"></script>
+</body>
+</html>

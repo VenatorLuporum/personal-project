@@ -1092,7 +1092,49 @@ body.dark-mode .delete-now-btn:hover {
     outline: none;
     border-color: var(--accent);
 }
+/* ============================================================
+   BLOG DISPLAY
+   ============================================================ */
+.blog-post-card {
+    margin-bottom: 1.5rem;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
 
+.blog-cover {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.blog-body {
+    padding: 1.5rem;
+}
+
+.blog-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+}
+
+.blog-meta {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+}
+
+/* This ensures lists and formatting show up correctly inside the blog */
+.blog-content-html {
+    line-height: 1.7;
+    color: var(--text);
+}
+.blog-content-html p { margin-bottom: 1rem; }
+.blog-content-html h2 { margin-top: 1.5rem; margin-bottom: 0.5rem; }
+.blog-content-html ul { padding-left: 1.5rem; margin-bottom: 1rem; }
 
 
 /* ---------- Empty State ---------- */
