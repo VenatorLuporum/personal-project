@@ -462,5 +462,5 @@ document.addEventListener("DOMContentLoaded", () => {
     loadGames();
     loadPhotos();
     loadNowItems();
-     updatePostCount();
+    updatePostCount();
 });
