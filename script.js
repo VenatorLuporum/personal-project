@@ -5,7 +5,82 @@ const supabaseUrl = 'https://emmxjqerlyqcayiskiqf.supabase.co';
 const supabaseKey = 'sb_publishable_gAV4RbPZhMqLZ6B33xjvzA_KAPjbF7q';
 const db = supabase.createClient(supabaseUrl, supabaseKey);
 
+    // ==========================================
+    // AUTHENTICATION LOGIC (6-Digit PIN)
+    // ==========================================
+    const MY_SECRET_PIN = "123456"; // <--- CHANGE THIS TO YOUR OWN PIN!
+    
+    const loginScreen = document.getElementById("login-screen");
+    const mainLayout = document.getElementById("main-layout");
+    const logoutBtn = document.getElementById("logout-btn");
+    
+    // Check if already logged in
+    const { data: { session } } = await db.auth.getSession();
+    if (session) {
+        showDashboard(true);
+    }
+
+    // Handle PIN Login
+    document.getElementById("login-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const enteredPin = document.getElementById("pin-input").value;
+
+        if (enteredPin === MY_SECRET_PIN) {
+            // The PIN is correct! Log in anonymously to get the Admin token.
+            const { error } = await db.auth.signInAnonymously();
+            
+            if (error) {
+                alert("Auth error: " + error.message);
+            } else {
+                showDashboard(true);
+            }
+        } else {
+            alert("Incorrect PIN. Try again.");
+            document.getElementById("pin-input").value = "";
+        }
+    });
+
+    // Handle Guest Mode
+    document.getElementById("guest-btn").addEventListener("click", () => {
+        showDashboard(false);
+    });
+
+    // Handle Logout
+    logoutBtn.addEventListener("click", async () => {
+        await db.auth.signOut();
+        window.location.reload(); 
+    });
+
+    // Show the dashboard and hide buttons if Guest
+    function showDashboard(isAdmin) {
+        loginScreen.style.display = "none";
+        mainLayout.style.display = "grid";
+        logoutBtn.style.display = "block";
+        
+        // Find all buttons that add, edit, or delete
+        const adminElements = document.querySelectorAll('.btn-primary, .delete-btn, .delete-game-btn, .delete-photo-btn, .delete-now-btn, #toggle-game-form, #toggle-upload-form, #toggle-now-form, #toggle-profile-form, .status-select');
+        
+        if (!isAdmin) {
+            // GUEST MODE: Hide buttons
+            adminElements.forEach(el => el.classList.add('guest-hidden'));
+            logoutBtn.textContent = "Exit Guest Mode";
+            logoutBtn.style.background = "var(--muted)";
+        } else {
+            // ADMIN MODE
+            logoutBtn.textContent = "Log Out";
+            logoutBtn.style.background = "#c0392b";
+        }
+
+        // Load Data (This will work for both guests and admins now)
+        loadProfile();
+        loadGames();
+        loadPhotos();
+        loadNowItems(); 
+        updatePostCount();
+        updateNowSection();
+    }
 document.addEventListener("DOMContentLoaded", () => {
+    
 
     // ==========================================
     // 1. DYNAMIC "NOW" SECTION
@@ -453,11 +528,5 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-        loadProfile();
-        loadGames();
-        loadPhotos();
-        loadNowItems(); 
-        updatePostCount();
-        updateNowSection();
 
 });
