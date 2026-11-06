@@ -453,14 +453,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+        loadProfile();
+        loadGames();
+        loadPhotos();
+        loadNowItems(); 
+        updatePostCount();
+        updateNowSection();
 
-    
-    // ==========================================
-    // INITIAL LOADS
-    // ==========================================
-    loadProfile();
-    loadGames();
-    loadPhotos();
-    loadNowItems();
-    updatePostCount();
 });
