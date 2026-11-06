@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // ==========================================
     // AUTHENTICATION LOGIC (6-Digit PIN)
     // ==========================================
-    const MY_SECRET_PIN = "123456"; // <--- CHANGE THIS TO YOUR OWN PIN!
+    const MY_SECRET_PIN = "032899"; // <--- CHANGE THIS TO YOUR OWN PIN!
     
     const loginScreen = document.getElementById("login-screen");
     const mainLayout = document.getElementById("main-layout");
