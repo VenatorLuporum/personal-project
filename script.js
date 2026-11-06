@@ -5,6 +5,7 @@ const supabaseUrl = 'https://emmxjqerlyqcayiskiqf.supabase.co';
 const supabaseKey = 'sb_publishable_gAV4RbPZhMqLZ6B33xjvzA_KAPjbF7q';
 const db = supabase.createClient(supabaseUrl, supabaseKey);
 
+document.addEventListener("DOMContentLoaded", async () => {
     // ==========================================
     // AUTHENTICATION LOGIC (6-Digit PIN)
     // ==========================================
@@ -79,7 +80,6 @@ const db = supabase.createClient(supabaseUrl, supabaseKey);
         updatePostCount();
         updateNowSection();
     }
-document.addEventListener("DOMContentLoaded", () => {
     
 
     // ==========================================
